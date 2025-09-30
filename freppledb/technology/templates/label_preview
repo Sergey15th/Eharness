@@ -1,0 +1,58 @@
+{% extends "admin/base_site_nav.html" %}
+{% load i18n %}
+
+{% block filter %}{% if reportclass.filterable %}
+&nbsp;<span id="filterform">
+<span id="curfilter"></span>
+&nbsp;
+<div class="input-group d-inline-flex w-auto">
+<input id="addsearch" class="form-control ps-2 pe-2" placeholder="{% trans 'Filter' %}" role="searchbox"
+  type="text" size="15" oninput="grid.showFieldList(this)" onkeydown="grid.keyDownSearch(event)">
+<button class="input-group-text" onclick="event.stopPropagation(); grid.showFilter()" data-bs-offset="0,5"
+  type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{% trans 'Filter editor' %}">
+  <i class="fa fa-search"></i>
+</button>
+	{% if reportclass.filterable %}{% include "common/snippet_favorites.html" with search=True %}{% endif %}
+</div>
+<div class="align-middle d-inline-flex" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-offset="0,5"
+  data-bs-title="{% trans 'reset filters'|capfirst|force_escape %}">
+  <div>
+    <i id="resetfilter" onclick="grid.resetFilter()" class="fa fa-times fs-6" ></i>
+  </div>
+</div>
+</span>
+{% endif %}{% endblock %}
+{% block extrahead %}{{block.super}}
+{% endblock %}
+
+{% block content %}
+<div class="label-preview">
+    <h2>Предпросмотр этикетки</h2>
+    <div class="label-design">
+        <h3>{{ product.name }}</h3>
+        <p>Артикул: {{ product.sku }}</p>
+        <img src="{{ product.get_barcode_url }}" alt="Штрих-код">
+    </div>
+    
+    <div class="print-actions">
+        <button onclick="window.print()" class="btn btn-primary">
+            Печать
+        </button>
+        <a href="{% url 'print-label' product.id %}" class="btn btn-secondary">
+            Скачать PDF
+        </a>
+    </div>
+</div>
+
+<style>
+@media print {
+    .no-print { display: none; }
+    .label-design {
+        border: 1px dashed #ccc;
+        width: 62mm;
+        height: 29mm;
+        padding: 3mm;
+    }
+}
+</style>
+{% endblock %}

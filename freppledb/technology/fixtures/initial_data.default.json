@@ -1,0 +1,3 @@
+[
+{"pk": "sample data", "model": "my_app.my_model", "fields": {"charfield": "sample", "booleanfield": true, "decimalfield": 666.0}}
+]
