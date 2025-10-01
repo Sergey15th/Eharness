@@ -31,3 +31,5 @@ django-allauth == 65.4.1 ; python_version >= '3.11'
 pillow == 11.3.0
 reportlab == 4.4.4
 python-barcode == 0.16.1
+paramiko==2.11.0
+pysftp==0.2.9
