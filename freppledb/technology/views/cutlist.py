@@ -328,7 +328,7 @@ class CrimpListList(GridReport):
         """
     )
     rows = (
-        GridFieldText("id", title=_("ID"), formatter="detail", model=ConnectionList, extra='"role":"technology/cutlist"',),
+        GridFieldText("id", title=_("ID"), formatter="detail", model=ConnectionList, extra='"role":"technology/connectionlist"',),
         GridFieldText("hanged_no", title=_("№ МВ")),
         GridFieldText("SP_pos", title=_("Поз.")),
         GridFieldHierarchicalText(

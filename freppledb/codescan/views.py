@@ -73,16 +73,16 @@ def CodeScanned(request):
                     except Exception as e:
                         logger.error('User with passcard ' + barcode + ' not found!')
                     pass            
-                elif codetype.type =='WorkPlace': # Если отсканировали Рабочее место
+                elif codetype.type == 'WorkPlace': # Если отсканировали Рабочее место
                     try:
                         workstation = Workstation.objects.get(qr=barcode)
                         return JsonResponse({'status': 'success', 'action':'workstation_set', 'data':workstation.short_name, 'reload':True, 'redirect':False, 'redirect_url': '/'})
                     except Exception as e:
                         logger.error('Workstation ' + barcode + ' not found!')
-                elif codetype.type =='Item_barcode': # Если отсканировали Номенклатуру по штрих-коду
+                elif codetype.type == 'Item_barcode' or codetype.type == 'Item_mQR': # Если отсканировали Номенклатуру по штрих-коду или mQR-коду:
                     try:
-                        nom = ItemT.objects.get(barcode=barcode)
-
+                        if codetype.type == 'Item_barcode': nom = ItemT.objects.get(barcode=barcode) # Находим номенклатуру по штрих-коду
+                        else: nom = ItemT.objects.get(qr=barcode) # Иначе находим номенклатуру по mQR-коду
                         if w_id =='РМ1': # Рабочее место нарезки и зачистки
                             prev_page = unquote(request.META.get('HTTP_REFERER'))
                             if not '/cutlist/?operation=' in prev_page or ('/cutlist/?operation=' in prev_page and nom.name not in prev_page):
@@ -90,7 +90,7 @@ def CodeScanned(request):
                                 # RETURN REDIRECT CALL TO CUTLIST PAGE
                                 return JsonResponse({'status': 'success', 'action':'item_cutlist_open', 'data':nom.name, 'reload':False, 'redirect':True, 'redirect_url': '/data/technology/cutlist/?operation='+ nom.name + ' - Нарезка и зачистка'}) #http://127.0.0.1:8000/data/technology/cutlist/
                             else:
-                                # Текущая страница - карта резки, переключаемся на комплектовочную карту
+                                # Текущая страница - карта резки, или другая, переключаемся на комплектовочную карту
                                 # RETURN REDIRECT CALL TO OPERATION MATERIALS PAGE
                                 return JsonResponse({'status': 'success', 'action':'item_cutlist_open', 'data':nom.name, 'reload':False, 'redirect':True, 'redirect_url': '/data/input/operationmaterial/?operation='+ nom.name + ' - Нарезка и зачистка'}) #http://127.0.0.1:8000/data/technology/operationmatherial/
                         elif w_id =='РМ2': # Рабочее место пайки
@@ -114,8 +114,15 @@ def CodeScanned(request):
                         elif w_id =='РМ3': # Рабочее место печати этикеток
                             pass
                         elif w_id =='РМ4': # Рабочее место монтажа разъёмов
-                            pass
-                            pass
+                            prev_page = unquote(request.META.get('HTTP_REFERER'))
+                            if not '/crimplist/?operation=' in prev_page or ('/crimplist/?operation=' in prev_page and nom.name not in prev_page):
+                                # Если текущая страница - не карта обжимки, или карта обжимки, но с другой номенклатурой
+                                # RETURN REDIRECT CALL TO CRIMPLIST PAGE
+                                return JsonResponse({'status': 'success', 'action':'item_crimplist_open', 'data':nom.name, 'reload':False, 'redirect':True, 'redirect_url': '/data/technology/crimplist/?operation='+ nom.name + ' - Нарезка и зачистка'}) #http://127.0.0.1:8000/data/technology/crimplist/
+                            else:
+                                # Текущая страница - карта обжимки, или другая, переключаемся на комплектовочную карту
+                                # RETURN REDIRECT CALL TO OPERATION MATERIALS PAGE
+                                return JsonResponse({'status': 'success', 'action':'item_cutlist_open', 'data':nom.name, 'reload':False, 'redirect':True, 'redirect_url': '/data/input/operationmaterial/?operation='+ nom.name + ' - Обжим контактов'}) #http://127.0.0.1:8000/data/technology/operationmatherial/
                         elif w_id =='РМ5': # Испытательный стенд
                             pass
                         elif w_id in ('РМ6.1', 'РМ6.2', 'РМ6.3', 'РМ6.4',): # Сборочные плазы
@@ -125,13 +132,6 @@ def CodeScanned(request):
                             logger.info('Ошибка ! Рабочее место не определено')
                         else:
                             logger.info('Item with barcode:' + barcode + ' not found!')
-                elif codetype.type =='Item_mQR': # Если отсканировали Номенклатуру по mQR коду
-                    try:
-                        nom = ItemT.objects.get(qr=barcode)
-                        if w_id =='РМ1': # Рабочее место нарезки и зачистки
-                            return JsonResponse({'status': 'success', 'action':'cutlist_open', 'data':nom.name, 'reload':False, 'redirect':True, 'redirect_url': '/data/technology/cutlist/?operation='+ nom.name + ' - Нарезка и зачистка'}) #http://127.0.0.1:8000/data/technology/cutlist/
-                    except Exception as e:
-                        logger.info('Item with barcode:' + barcode + ' not found!')
                 elif codetype.type =='SalesOrder': # Если отсканировали Заказ на производство по штрих-коду
                     try:
                         if w_id =='РМ1': # Рабочее место нарезки и зачистки
