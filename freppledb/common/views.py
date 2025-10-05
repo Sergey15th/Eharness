@@ -1084,8 +1084,8 @@ def sendStaticFile(request, *args, headers=None):
 def uploads(request, filename):
     return sendStaticFile(
         request,
-        settings.FREPPLE_LOGDIR,
-        "uploads",
+        settings.MEDIA_ROOT,
+        "", #"uploads"
         filename,
         headers={"Cache-Control": "max-age=%s" % settings.MEDIA_MAX_AGE},
     )

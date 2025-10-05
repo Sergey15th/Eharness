@@ -1,7 +1,12 @@
 from django.db import models
-
+import segno
+import barcode as barcode_lib
+from barcode.writer import ImageWriter
 from django.db import models
 from freppledb.common.models import User
+import os
+from pathlib import Path
+from freppledb.settings import MEDIA_ROOT, MEDIA_URL
 # Use the function "_" for all strings that need translation.
 from django.utils.translation import gettext_lazy as _
 
@@ -9,6 +14,38 @@ from django.utils.translation import gettext_lazy as _
 from freppledb.common.models import HierarchyModel, AuditModel, Parameter
 
 alphabet="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+class QR(AuditModel):
+    def create_qr(self, qr):
+        self.qr = qr
+        if len(self.qr)<6:
+            image = segno.make(self.qr, micro=True)
+        else:
+            image = segno.make(self.qr, micro=False)
+        path = os.path.join(MEDIA_ROOT, 'img', 'qr', self.qr)  + '.png' # Сохраняем в MEDIA_ROOT/img/qr/*.png
+        image.save(path, scale=8) # Если картинка уже есть, выйдет ошибка
+        self.image = 'img\\qr\\' + self.qr  + '.png'
+        return self.image
+    qr = models.CharField(primary_key=True, blank=False, null=False)
+    image = models.ImageField(upload_to='qr/', height_field='image_height', width_field='image_width', null=True, blank=False, default='img/no_image.png')
+    image_height = models.IntegerField(blank=True, null=True)
+    image_width = models.IntegerField(blank=True, null=True)
+    type = models.CharField(max_length=50, blank=False, null=False)
+
+class barcode(AuditModel):
+    def create_barcode(self, barcode):
+        self.barcode = barcode
+        image = barcode_lib.get('ean13', self.barcode, writer=ImageWriter())
+        path = os.path.join(MEDIA_ROOT, 'img', 'barcode', self.barcode) # Сохраняем в MEDIA_ROOT/img/barcode/*.png
+        image.save(path) # Если картинка уже есть, выйдет ошибка
+        self.image = f'img/barcode/{self.barcode}.png'
+        return self.image
+    
+    barcode = models.CharField(primary_key=True, blank=False, null=False)
+    image = models.ImageField(upload_to='barcode/', height_field='image_height', width_field='image_width', null=True, blank=False, default='img/no_image.png')
+    image_height = models.IntegerField(blank=True, null=True)
+    image_width = models.IntegerField(blank=True, null=True)
+    type = models.CharField(max_length=50, blank=False, null=False)
 
 class UserCodes(AuditModel):
     user = models.ForeignKey(
@@ -18,7 +55,7 @@ class UserCodes(AuditModel):
         blank=True,
         verbose_name="User",
         db_comment="User",
-        ) 
+        )
     code = models.CharField(max_length=100, blank=False, null=False)
     class Meta:
         verbose_name = "User passcard"
@@ -59,8 +96,8 @@ class LastUsedQR(AuditModel):
     model = models.CharField(primary_key=True, max_length=50, blank=False, null=False)
     qr = models.CharField(max_length=8, blank=False, null=False)
     class Meta:
-        verbose_name = "Last used mQR"
-        verbose_name_plural = "Last used mQRs"
+        verbose_name = "Last used QR"
+        verbose_name_plural = "Last used QRs"
         db_table = "last_qr"
 
 class CodeScanEvent(AuditModel):

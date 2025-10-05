@@ -11,6 +11,7 @@ from django.db.models import Case, When, Value, CharField, DecimalField, Count, 
 from django.db.models.functions import Concat
 from django.contrib.postgres.aggregates import ArrayAgg
 
+
 from freppledb.boot import getAttributeFields
 from freppledb.input.views import (
     ItemList,
@@ -442,6 +443,21 @@ class ItemTList(GridReport):
         GridFieldNumber("image_height", title=_("высота изобр."), initially_hidden=True),
         GridFieldNumber("image_width", title=_("ширина изобр."), initially_hidden=True),
         GridFieldText("short_name", title=_("арт."), initially_hidden=True),
+        GridFieldText("erp_code", title=_("Код 1С"), initially_hidden=True),
+        GridFieldText("qr", title=_("QR"), initially_hidden=True),
+        GridFieldText("barcode_number", title=_("Номер штрих-кода"), initially_hidden=True),
+        GridFieldText(
+            "qr__image",
+            title=_("QR_"),
+            formatter="imagenew",
+            key=False,
+        ),
+        GridFieldText(
+            "barcode__image",
+            title=_("Barcode"),
+            formatter="imagenew",
+            key=False,
+        ),
         GridFieldText(
             "owner",
             title=_("owner"),

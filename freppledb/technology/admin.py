@@ -50,7 +50,7 @@ class ItemT_admin(MultiDBModelAdmin):
     search_fields = ("name", "description")
 
     fieldsets = (
-        (None, {"fields": ("name", "description", "cost", "owner", "uom")}),
+        (None, {"fields": ("name", "description", "qr", "barcode_number", "cost", "owner", "uom")}),
         (
             _("advanced"),
             {

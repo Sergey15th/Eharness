@@ -192,6 +192,7 @@ class ItemTSerializer(BulkSerializerMixin, ModelSerializer):
         fields = (
             "name",
             "owner",
+            "qr",
             "description",
             "category",
             "subcategory",
@@ -226,7 +227,6 @@ class ItemTAPI(frePPleListCreateAPIView):
 class ItemTdetailAPI(frePPleRetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return models.ItemT.objects.using(self.request.database).all()
-
     serializer_class = ItemTSerializer
 
 class SolderingListFilter(FilterSet):

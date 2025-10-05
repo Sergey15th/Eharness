@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from freppledb.technology.models import ConnectionList, ItemT
-from freppledb.codescan.models import LastUsedQR
+from freppledb.codescan.models import LastUsedQR, QR, barcode
 
 @receiver(pre_save)
 def technology_pre_save_receiver(sender, instance, **kwargs):
@@ -15,17 +15,27 @@ def technology_pre_save_receiver(sender, instance, **kwargs):
             current_qr.qr = current_qr._next_id()
             instance.qr = current_qr.model + current_qr.qr
             current_qr.save()
-    if sender == ItemT:
-        if instance.qr is None:
+    if sender == ItemT: # Если сохраняем Номенклатуру:
+        if instance.image.name is None:
+            instance.image = 'img/no_image.png'
+            instance.imagef = 'img/no_image_F.png'
+        if instance.qr is None: # Если QR кода нет
             try:
-                current_qr = LastUsedQR.objects.get(model='6') # Карта резки
+                current_qr = LastUsedQR.objects.get(model='6') # Номенклатура
             except Exception as e:
                 current_qr = LastUsedQR(model='6', qr='0000')
             current_qr.qr = current_qr._next_id()
-            instance.qr = current_qr.model + current_qr.qr
+            new_qr = QR()
+            new_qr.create_qr(current_qr.model + current_qr.qr)
             current_qr.save()
-        if instance.image is not None:
-          if instance.image.name is None: instance.image = 'img/no_image.png'
-          instance.imagef.name = instance.image.name[:-4] + '_F' + instance.image.name[-4:] # путь относительно MEDIA_ROOT
-          instance.imagef_height = instance.image_height
-          instance.imagef_width = instance.image_width
+            new_qr.save()
+            instance.qr = new_qr
+        else: # Если QR код есть, то генерим картинку
+            if not instance.qr.image: #QR есть, но нужно сгенерить картинку
+                instance.qr.create_qr(instance.qr.qr)
+                instance.qr.save()
+        if instance.barcode_number is not None:
+            new_barcode = barcode()
+            new_barcode.create_barcode(instance.barcode_number)
+            new_barcode.save()
+            instance.barcode = new_barcode

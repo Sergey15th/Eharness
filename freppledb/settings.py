@@ -686,7 +686,7 @@ if os.access(os.path.join(FREPPLE_CONFIGDIR, "localsettings.py"), os.R_OK):
 
 # Some Django settings we don't like to be overriden
 MANAGERS = ADMINS
-MEDIA_ROOT = os.path.join(FREPPLE_LOGDIR, "uploads")
+MEDIA_ROOT = os.path.join(FREPPLE_APP, "media")
 
 # Change the default dashboard if the wizard is active
 if "freppledb.wizard" in INSTALLED_APPS:

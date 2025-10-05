@@ -7,16 +7,37 @@ from django.utils.translation import gettext_lazy as _
 # A subclass of AuditModel will inherit an field "last_modified" and "source".
 from freppledb.common.models import HierarchyModel, AuditModel, Parameter
 from freppledb.input.models import Item, Operation
+from freppledb.codescan.models import QR, barcode
 
 class ItemT(Item):
-   image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='img/no_image.png')
-   image_height = models.IntegerField(blank=True, null=True)
-   image_width = models.IntegerField(blank=True, null=True)
-   imagef = models.ImageField(upload_to='img/', height_field='imagef_height', width_field='imagef_width', null=True, blank=True)
-   imagef_height = models.IntegerField(blank=True, null=True)
-   imagef_width = models.IntegerField(blank=True, null=True)
-   short_name = models.CharField(_('арт.'), null=True, blank=True)
-   
+  image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='img/no_image.png')
+  image_height = models.IntegerField(blank=True, null=True)
+  image_width = models.IntegerField(blank=True, null=True)
+  imagef = models.ImageField(upload_to='img/', height_field='imagef_height', width_field='imagef_width', null=True, blank=True, default='img/no_image_F.png')
+  imagef_height = models.IntegerField(blank=True, null=True)
+  imagef_width = models.IntegerField(blank=True, null=True)
+  short_name = models.CharField(_('арт.'), null=True, blank=True)
+  erp_code = models.CharField(_('erp code'), null=True, blank=True)
+  qr = models.ForeignKey(
+    QR,
+    verbose_name=_("QR код"),
+    on_delete=models.CASCADE,
+    blank=True,
+    null=True,
+    db_index=False,
+    related_name='qr_owners',
+  )
+  barcode_number = models.CharField(_('Номер штрих-кода'), null=True, blank=True)
+  barcode = models.ForeignKey(
+    barcode,
+    verbose_name=_("Штрих код"),
+    on_delete=models.CASCADE,
+    blank=True,
+    null=True,
+    db_index=False,
+    related_name='barcode_owners',
+  )
+
 class ConnectionList(AuditModel):
   # Database fields
   id = models.AutoField(_("identifier"), primary_key=True)
@@ -152,7 +173,7 @@ class MobileHanger(AuditModel):
 class TraceScheme(AuditModel):
   item = models.ForeignKey(ItemT, on_delete=models.CASCADE, related_name='trace_schemes', null=True, blank=True)
   wire_no = models.CharField(_('имя провода'), null=False, blank=False, max_length=20, help_text= _('Имя жилы или провода'))
-  image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='img/no_image.png')
+  image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='uploads/img/no_image.png')
   image_height = models.IntegerField(blank=True, null=True)
   image_width = models.IntegerField(blank=True, null=True)
   class Meta(AuditModel.Meta):
