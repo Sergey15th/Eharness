@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     # Add any project specific apps here
     "freppledb.technology",
     "freppledb.codescan",
+    "freppledb.qm",
     # "freppledb.odoo",
     # "freppledb.erpconnection",
     "freppledb.wizard",

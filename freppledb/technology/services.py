@@ -1,6 +1,7 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from freppledb.technology.models import ConnectionList, ItemT
+from freppledb.input.models.operationplan import ManufacturingOrder
 from freppledb.codescan.models import LastUsedQR, QR, barcode
 
 @receiver(pre_save)
@@ -39,3 +40,9 @@ def technology_pre_save_receiver(sender, instance, **kwargs):
             new_barcode.create_barcode(instance.barcode_number)
             new_barcode.save()
             instance.barcode = new_barcode
+    if sender == ManufacturingOrder:
+        # Необходимо определить, является ли заказ новым
+        
+        
+        
+        pass
