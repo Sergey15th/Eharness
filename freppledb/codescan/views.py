@@ -81,7 +81,7 @@ def CodeScanned(request):
                         logger.error('Workstation ' + barcode + ' not found!')
                 elif codetype.type == 'Item_barcode' or codetype.type == 'Item_mQR': # Если отсканировали Номенклатуру по штрих-коду или mQR-коду:
                     try:
-                        if codetype.type == 'Item_barcode': nom = ItemT.objects.get(barcode=barcode) # Находим номенклатуру по штрих-коду
+                        if codetype.type == 'Item_barcode': nom = ItemT.objects.get(barcode_number=barcode) # Находим номенклатуру по штрих-коду
                         else: nom = ItemT.objects.get(qr=barcode) # Иначе находим номенклатуру по mQR-коду
                         if w_id =='РМ1': # Рабочее место нарезки и зачистки
                             prev_page = unquote(request.META.get('HTTP_REFERER'))
@@ -134,7 +134,7 @@ def CodeScanned(request):
                             logger.info('Item with barcode:' + barcode + ' not found!')
                 elif codetype.type =='SalesOrder': # Если отсканировали Заказ на производство по штрих-коду
                     try:
-                        if w_id =='РМ1': # Рабочее место нарезки и зачистки
+                        if w_id in ('РМ1', 'РМ2', 'РМ3', 'РМ4'): #
                             return JsonResponse({'status': 'success', 'action':'demamd_open', 'data':barcode, 'reload':False, 'redirect':True, 'redirect_url': '/data/input/demand/?barcode='+ barcode})
                     except Exception as e:
                         logger.info('Item with barcode:' + barcode + ' not found!')
@@ -160,7 +160,9 @@ def CodeScanned(request):
                     else: # Отсканирован крючок на мобильном вешале
                         if w_id in ('РМ6.1', 'РМ6.2', 'РМ6.3'): #Отсканировали на сборочном плазе
                             try:
-                                item_mv_id =  MobileHanger.objects.get(number=barcode[1]).current_item.name # Какая Номенклатура привязана к данному мобильному вешалу
+                                # Какая Номенклатура привязана к данному мобильному вешалу ?
+                                # номер вешала берем из второго символа QR кода
+                                item_mv_id =  MobileHanger.objects.get(number=barcode[1]).current_item.name
                             except Exception as e:
                                 logger.info('Не удалось найти информацию о вешале ' + barcode[1])
                             if item_mv_id:

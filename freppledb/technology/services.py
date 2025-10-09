@@ -2,7 +2,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from freppledb.technology.models import ConnectionList, ItemT
 from freppledb.input.models.operationplan import ManufacturingOrder
-from freppledb.codescan.models import LastUsedQR, QR, barcode
+from freppledb.qm.models import BatchList
 
 @receiver(pre_save)
 def technology_pre_save_receiver(sender, instance, **kwargs):
@@ -36,13 +36,17 @@ def technology_pre_save_receiver(sender, instance, **kwargs):
                 instance.qr.create_qr(instance.qr.qr)
                 instance.qr.save()
         if instance.barcode_number is not None:
-            new_barcode = barcode()
-            new_barcode.create_barcode(instance.barcode_number)
-            new_barcode.save()
-            instance.barcode = new_barcode
+            #new_barcode = barcode()
+            #new_barcode.create_barcode(instance.barcode_number)
+            #new_barcode.save()
+            #instance.barcode = new_barcode
+            pass
     if sender == ManufacturingOrder:
         # Необходимо определить, является ли заказ новым
-        
-        
-        
-        pass
+        try: # Определим, не создана ли уже партия номенклатуры под наш заказ 
+            bl = BatchList.objects.get(manufacturing_order=instance)
+            # Уже создана, ничего не делаем
+            pass
+        except:
+            # Партии номенклатуры нет, создаём новую
+            pass

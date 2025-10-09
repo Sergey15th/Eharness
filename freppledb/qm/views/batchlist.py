@@ -77,7 +77,7 @@ class BatchListList(GridReport):
             field_name="manufacturing_order__item",
             key=False,
             formatter="detail",
-            extra='"role":"technology/itemy"',
+            extra='"role":"technology/itemt"',
             model=ItemT,
         ),
         GridFieldInteger(
