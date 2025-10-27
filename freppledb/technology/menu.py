@@ -7,14 +7,14 @@ from freppledb.menu import menu
 
 import freppledb.technology.views
 from freppledb.technology.models import (
-   ConnectionList, SolderingScheme, ProductLabel, MobileHanger, TraceScheme
+   ConnectionList, SolderingScheme, MobileHanger, TraceScheme
 )
 import freppledb.technology.views.cutlist
 import freppledb.technology.views.solderingscheme
 
 # Add a new group and a new item
 menu.addGroup("technology", label=_("Технология"), index=10)
-menu.addItem("technology", "google", url="http://google.com", label=_('link to my company'), index=1)
+#menu.addItem("technology", "google", url="http://google.com", label=_('link to my company'), index=1)
 
 menu.addItem(
     "technology",
@@ -58,18 +58,10 @@ menu.addItem(
 )
 menu.addItem(
     "technology",
-    "productlabel",
-    url="/data/technology/productlabel/",
-    report=freppledb.technology.views.label.ProductLabelList,
-    index=16,
-    model=ProductLabel,
-)
-menu.addItem(
-    "technology",
     "tracescheme",
     url="/data/technology/tracescheme/",
     report=freppledb.technology.views.tracescheme.TraceSchemeList,
-    index=17,
+    index=16,
     model=TraceScheme,
 )
 menu.addItem(

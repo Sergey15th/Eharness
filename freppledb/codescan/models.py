@@ -13,18 +13,22 @@ from django.utils.translation import gettext_lazy as _
 # A subclass of AuditModel will inherit an field "last_modified" and "source".
 from freppledb.common.models import HierarchyModel, AuditModel, Parameter
 
-alphabet="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+alphabet="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 class QR(AuditModel):
     def create_qr(self, qr):
         self.qr = qr
         if len(self.qr)<6:
-            image = segno.make(self.qr, micro=True)
+            image = segno.make('5-J.SU/'+self.qr, micro=False, mode='alphanumeric', version=1, error='L')
         else:
-            image = segno.make(self.qr, micro=False)
-        path = os.path.join(MEDIA_ROOT, 'img', 'qr', self.qr)  + '.png' # Сохраняем в MEDIA_ROOT/img/qr/*.png
+            image = segno.make('5-J.SU/'+self.qr, micro=False, mode='alphanumeric', version=1, error='L')
+        # Заменяем строчные буквы на конструкцию '_*', т.е. перед строчной буквой ставим _
+        qr_filename = self.qr
+        for letter in 'abcdefghijklmnopqrstuvwxyz':
+            qr_filename = qr_filename.replace(letter, '_' + letter.upper())
+        path = os.path.join(MEDIA_ROOT, 'img', 'qr', qr_filename)  + '.png' # Сохраняем в MEDIA_ROOT/img/qr/*.png
         image.save(path, scale=8) # Если картинка уже есть, выйдет ошибка
-        self.image = 'img\\qr\\' + self.qr  + '.png'
+        self.image = 'img/qr/' + qr_filename  + '.png'
         return self.image
     qr = models.CharField(primary_key=True, blank=False, null=False)
     image = models.ImageField(upload_to='qr/', height_field='image_height', width_field='image_width', null=True, blank=False, default='img/no_image.png')
@@ -51,7 +55,7 @@ class UserCodes(AuditModel):
     user = models.ForeignKey(
         to=User,
         null=True,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         blank=True,
         verbose_name="User",
         db_comment="User",
@@ -71,18 +75,18 @@ class CodesTypes(AuditModel):
         db_table = "codes_types"
 
 class LastUsedQR(AuditModel):
-    def to_base62(self, num):
-        """Перевод числа в 62-ричную систему"""
+    def to_base36(self, num):
+        """Перевод числа в 36-ричную систему"""
         if num == 0:
             return alphabet[0]
-        base62 = []
+        base36 = []
         base = len(alphabet)
         while num > 0:
             num, rem = divmod(num, base)
-            base62.append(alphabet[rem])
-        return ''.join(reversed(base62)).zfill(4)
-    def from_base62(self, s):
-        """Перевод из 62-ричной системы в десятичную"""
+            base36.append(alphabet[rem])
+        return ''.join(reversed(base36)).zfill(4)
+    def from_base36(self, s):
+        """Перевод из 36-ричной системы в десятичную"""
         base = len(alphabet)
         num = 0
         for char in s:
@@ -90,9 +94,9 @@ class LastUsedQR(AuditModel):
         return num    
     def _next_id(self) -> str:
         if not self.qr:
-            return self.to_base62(0)
+            return self.to_base36(0)
         else:
-            return self.to_base62(num=self.from_base62(self.qr) + 1)
+            return self.to_base36(num=self.from_base36(self.qr) + 1)
     model = models.CharField(primary_key=True, max_length=50, blank=False, null=False)
     qr = models.CharField(max_length=8, blank=False, null=False)
     class Meta:
@@ -107,7 +111,7 @@ class CodeScanEvent(AuditModel):
     user = models.ForeignKey(
         to=User,
         null=True,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         blank=True,
         verbose_name="User",
         related_name="event_users",
@@ -130,8 +134,6 @@ class CodeScanEvent(AuditModel):
         verbose_name = _("Code scan Event")
         verbose_name_plural = _("Code scan Events")
         ordering = ["created_at"]
-
-from django.db import models
 
 class Workstation(AuditModel):
     name = models.CharField(max_length=100, primary_key=True, verbose_name="Название")

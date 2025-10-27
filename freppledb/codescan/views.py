@@ -41,6 +41,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+#TODO: ПЕРЕНЕСТИ В SERVICES
 @csrf_exempt
 def CodeScanned(request):
     if request.method == 'POST':

@@ -40,11 +40,9 @@ if mode == "WSGI":
         re_path(r"^data/technology/itemt/$", views.ItemTList.as_view(), name="input_itemt_changelist", ),
 
         # ОТОБРАЖЕНИЕ превью этикетки
-        re_path(r"^data/technology/print-label/(?P<product_id>(.+))/$", ProductLabelView.as_view(), name='print-label'),
-        re_path(r"^data/technology/label-preview/(?P<product_id>(.+))/$", ProductLabelPreviewView.as_view(), name='label-preview'),
-
-        # ОТОБРАЖЕНИЕ списка этикеток
-        re_path(r"^data/technology/productlabel/$", views.ProductLabelList.as_view(), name="technology_productlabel_changelist", ),
+        # TODO: УБРАТЬ, ТАК КАК ЭТИКЕТКИ ПЕРЕНЕСЕНЫ В QM
+        #re_path(r"^data/technology/print-label/(?P<product_id>(.+))/$", ProductLabelView.as_view(), name='print-label'),
+        #re_path(r"^data/technology/label-preview/(?P<product_id>(.+))/$", ProductLabelPreviewView.as_view(), name='label-preview'),
 
         # ОТОБРАЖЕНИЕ списка мобильных вешал
         re_path(r"^data/technology/mobilehanger/$", views.MobileHangerList.as_view(), name="technology_mobilehanger_changelist", ),
@@ -56,7 +54,6 @@ if mode == "WSGI":
         re_path(r"^api/technology/cutlist/$", serializers.CutListAPI.as_view()),
         re_path(r"^api/technology/crimplist/$", serializers.ConnectionListAPI.as_view()),
         re_path(r"^api/technology/solderinglist/$", serializers.SolderingListAPI.as_view()),
-        re_path(r"^api/technology/productlabel/$", serializers.ProductLabelAPI.as_view(), name='product-label'),
         re_path(r"^api/technology/solderingscheme/$", serializers.SolderingSchemeAPI.as_view()),
         re_path(r"^api/technology/tracescheme/$", serializers.TraceSchemeAPI.as_view()),
         re_path(r"^api/input/item/(?P<pk>(.+))/$", serializers.ItemTdetailAPI.as_view(), ),

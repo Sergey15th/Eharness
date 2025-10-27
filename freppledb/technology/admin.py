@@ -6,7 +6,7 @@ from freppledb.common.adminforms import MultiDBModelAdmin
 
 from freppledb.admin import data_site
 from freppledb.boot import getAttributes
-from freppledb.technology.models import ConnectionList, ItemT, SolderingScheme, ProductLabel, MobileHanger, TraceScheme
+from freppledb.technology.models import ConnectionList, ItemT, SolderingScheme, MobileHanger, TraceScheme
 from freppledb.input.admin import Item_admin
 
 @admin.register(ConnectionList, site=data_site)
@@ -47,14 +47,14 @@ class ItemT_admin(MultiDBModelAdmin):
     model = ItemT
     save_on_top = True
     raw_id_fields = ("owner",)
-    search_fields = ("name", "description")
+    search_fields = ("name", "description",)
 
     fieldsets = (
         (None, {"fields": ("name", "description", "qr", "barcode_number", "cost", "owner", "uom")}),
         (
             _("advanced"),
             {
-                "fields": ["category", "subcategory", "type", "volume", "weight", "image", "image_height", "image_width", "short_name",]
+                "fields": ["category", "subcategory", "type", "passport_label_template", "volume", "weight", "image", "image_height", "image_width", "short_name",]
                 + [a[0] for a in getAttributes(ItemT) if a[3]],
                 "classes": ("collapse",),
             },
@@ -114,37 +114,6 @@ class SolderingScheme_admin(MultiDBModelAdmin):
             "name": "messages",
             "label": _("messages"),
             "view": "admin:technology_solderingscheme_comment",
-        },
-    ]
-
-@admin.register(ProductLabel, site=data_site)
-class ProductLabel_admin(MultiDBModelAdmin):
-    model = ProductLabel
-    save_on_top = True
-    search_fields = ("name", "item")
-    raw_id_fields = ("item", )
-    fieldsets = (
-        (None, {"fields": ("name", "item", "label_template", )}),
-        (
-            _("advanced"),
-            {
-                "fields": ["barcode", ]
-                + [a[0] for a in getAttributes(ProductLabel) if a[3]],
-                "classes": ("collapse",),
-            },
-        ),
-    )
-    tabs = [
-        {
-            "name": "edit",
-            "label": _("edit"),
-            "view": "admin:technology_productlabel_change",
-            "permissions": "technology.change_productlabel",
-        },
-        {
-            "name": "messages",
-            "label": _("messages"),
-            "view": "admin:technology_productlabel_comment",
         },
     ]
 

@@ -584,7 +584,6 @@ jQuery.extend($.fn.fmatter, {
   }
 });
 
-
 //НОВАЯ ФУНКЦИЯ
 // Т.К. ХЗ где теряется title (когда нет изображения),
 // попробовать сделать в модели изображение по умолчанию болванкой
@@ -592,7 +591,7 @@ jQuery.extend($.fn.fmatter, {
   imagenew: function (cellvalue, options, rowdata) {
     if (typeof cellvalue !== 'string') return '';
     else
-      return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 60px;" </img>';
+      return '<img src="/uploads/' + cellvalue + '" style="max-width: 400px; max-height: 100px;" </img>';
   }
 });
 

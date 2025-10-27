@@ -43,6 +43,7 @@ if mode == "WSGI":
 
     urlpatterns = [
         re_path(r"^uploads/(.+)$", freppledb.common.views.uploads, name="uploads"),
+        re_path(r"^media/(.+)$", freppledb.common.views.uploads, name="uploads"),
         re_path(r"^inbox/$", freppledb.common.views.inbox, name="inbox"),
         re_path(r"^follow/$", freppledb.common.views.follow, name="follow"),
         re_path(r"^$", freppledb.common.views.cockpit, name="cockpit"),

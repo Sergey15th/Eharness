@@ -13,7 +13,7 @@ from freppledb.input.models import (
     ManufacturingOrder
 )
 from freppledb.qm.models import (
-    BatchList,
+    Batch,
 )
 from freppledb.technology.models import (
     ItemT,
@@ -37,10 +37,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class BatchListList(GridReport):
+class BatchList(GridReport):
     title = _("Партии номенклатуры")
-    basequeryset = BatchList.objects.all()
-    model = BatchList
+    basequeryset = Batch.objects.all()
+    model = Batch
     frozenColumns = 0
     editable = True
     help_url = "help/batchlist.html"
@@ -54,32 +54,38 @@ class BatchListList(GridReport):
         <br>
         <br><br>
         <div role="group" class="btn-group.btn-group-justified">
-        <a href="{{request.prefix}}/data/qm/batchlist/add/" class="btn btn-primary">Create a batch<br>in a form</a>
+        <a href="{{request.prefix}}/data/qm/batch/add/" class="btn btn-primary">Create a batch<br>in a form</a>
         <a href="{{request.prefix}}/wizard/load/batchlist/?currentstep=55" class="btn btn-primary">Wizard to upload batchlist<br>from a spreadsheet</a>
         </div>
         <br>
         """
     )
     rows = (
-        GridFieldText("id", title=_("ID"), formatter="detail", model=BatchList, extra='"role":"qm/batchlist"',),
+        GridFieldText("id", title=_("ID"), formatter="detail", model=Batch, extra='"role":"qm/batch"',),
         GridFieldHierarchicalText(
             "manufacturing_order",
             title=_("Заказ"),
             field_name="manufacturing_order",
             key=False,
-            formatter="detail",
-            extra='"role":"input/operationTOCHECK"',
+            formatter="text",
+            #extra='"role":"input/manufacturingorder"',
             model=ManufacturingOrder,
+        ),
+        GridFieldText(
+            "batch no",
+            title=_("batch no"),
+            field_name="manufacturing_order__batch",
         ),
         GridFieldHierarchicalText(
             "manufacturing_order__item",
             title=_("Товарная позиция"),
             field_name="manufacturing_order__item",
             key=False,
-            formatter="detail",
-            extra='"role":"technology/itemt"',
+            formatter="text",
+            #extra='"role":"technology/itemt"',
             model=ItemT,
         ),
+        #GridFieldText("manufacturing_order__batch", title=_("Batch no")),
         GridFieldInteger(
             "serie_no_start", title=_("Начальный s/n")
         ),

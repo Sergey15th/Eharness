@@ -179,6 +179,7 @@ class ItemTFilter(FilterSet):
                 "uom": ["exact", "in", "contains"],
                 "periodofcover": ["exact", "in", "gt", "gte", "lt", "lte"],
                 "type": ["exact", "in"],
+                "passport_label_template": ["exact", "in"], 
                 "source": ["exact", "in"],
                 "lastmodified": ["exact", "in", "gt", "gte", "lt", "lte"],
             },
@@ -203,6 +204,7 @@ class ItemTSerializer(BulkSerializerMixin, ModelSerializer):
             "periodofcover",
             "uom",
             "type",
+            "passport_label_template",
             "source",
             "lastmodified",
         ) + getAttributeAPIFields(models.ItemT)
@@ -331,48 +333,6 @@ class SolderingSchemedetailAPI(frePPleRetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return models.SolderingScheme.objects.using(self.request.database).all()
     serializer_class = SolderingSchemeSerializer
-
-class ProductLabelFilter(FilterSet):
-    class Meta:
-        model = models.ProductLabel
-        fields = dict(
-            {   "id": ["exact", "in"],
-                "name": ["exact", "in"],
-                "item": ["exact", "in"],
-                "label_template": ["exact", "in"],
-                "lastmodified": ["exact", "in", "gt", "gte", "lt", "lte"],
-            },
-            **getAttributeAPIFilterDefinition(models.ProductLabel),
-        )
-        filter_fields = fields.keys()
-
-class ProductLabelSerializer(BulkSerializerMixin, ModelSerializer):
-    class Meta:
-        model = models.ProductLabel
-        fields = (
-            "id",
-            "name",
-            "item",
-            "label_template",
-        ) + getAttributeAPIFields(models.ProductLabel)
-        read_only_fields = (
-            "source",
-            "lastmodified",
-        ) + getAttributeAPIReadOnlyFields(models.ProductLabel)
-        list_serializer_class = BulkListSerializer
-        update_lookup_field = "name"
-        partial = True
-
-class ProductLabelAPI(frePPleListCreateAPIView):
-    def get_queryset(self):
-        return models.ProductLabel.objects.using(self.request.database).all()
-    serializer_class = ProductLabelSerializer
-    filter_class = ProductLabelFilter
-
-class ProductLabeldetailAPI(frePPleRetrieveUpdateDestroyAPIView):
-    def get_queryset(self):
-        return models.ProductLabel.objects.using(self.request.database).all()
-    serializer_class = ProductLabelSerializer
 
 class MobileHangerFilter(FilterSet):
     class Meta:

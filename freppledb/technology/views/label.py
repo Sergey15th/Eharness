@@ -79,7 +79,7 @@ class ProductLabelPreviewView(DetailView):
         return context
     
 class ProductLabelList(GridReport):
-    title = _("Этикетки")
+    title = _("НЕ ИСПОЛЬЗОВАТЬ Этикетки НЕ ИСПОЛЬЗОВАТЬ")
     basequeryset = ProductLabel.objects.all()
     model = ProductLabel
     frozenColumns = 0

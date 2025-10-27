@@ -1,5 +1,9 @@
 from django.db import models
 from django.conf import settings
+from django.db import models, DEFAULT_DB_ALIAS, connections, transaction
+from psycopg2.extras import execute_batch
+import logging
+#from freppledb.qm.models import Label
 
 # Use the function "_" for all strings that need translation.
 from django.utils.translation import gettext_lazy as _
@@ -9,7 +13,95 @@ from freppledb.common.models import HierarchyModel, AuditModel, Parameter
 from freppledb.input.models import Item, Operation
 from freppledb.codescan.models import QR, barcode
 
+logger = logging.getLogger(__name__)
+
 class ItemT(Item):
+  @classmethod
+  def rebuildHierarchy(cls, database=DEFAULT_DB_ALIAS):
+      # Verify whether we need to rebuild or not.
+      # We search for the first record whose lft field is null.
+      if len(cls.objects.using(database).filter(lft__isnull=True)[:1]) == 0:
+          return
+
+      nodes = {}
+      children = {}
+      updates = []
+
+      def tagChildren(me, left, level):
+          right = left + 1
+          # Get all children of this node
+          for i in children.get(me, []):
+              # Recursive execution of this function for each child of this node
+              right = tagChildren(i, right, level + 1)
+
+          # After processing the children of this node now know its left and right values
+          updates.append((left, right, level, me))
+
+          # Remove from node list (to mark as processed)
+          del nodes[me]
+
+          # Return the right value of this node + 1
+          return right + 1
+
+      # Load all nodes in memory
+      for i in cls.objects.using(database).values("name", "owner"):
+          if i["name"] == i["owner"]:
+              logging.error("Data error: '%s' points to itself as owner" % i["name"])
+              nodes[i["name"]] = None
+          else:
+              nodes[i["name"]] = i["owner"]
+              if i["owner"]:
+                  if not i["owner"] in children:
+                      children[i["owner"]] = set()
+                  children[i["owner"]].add(i["name"])
+      keys = sorted(nodes.items())
+
+      # Loop over nodes without parent
+      cnt = 1
+      for i, j in keys:
+          if j is None:
+              cnt = tagChildren(i, cnt, 0)
+
+      if nodes:
+          # If the nodes dictionary isn't empty, it is an indication of an
+          # invalid hierarchy.
+          # There are loops in your hierarchy, ie parent-chains not ending
+          # at a top-level node without parent.
+          bad = nodes.copy()
+          updated = True
+          while updated:
+              updated = False
+              for i in list(bad.keys()):
+                  ok = True
+                  for j, k in bad.items():
+                      if k == i:
+                          ok = False
+                          break
+                  if ok:
+                      # If none of the bad keys points to me as a parent, I am unguilty
+                      del bad[i]
+                      updated = True
+          logging.error("Data error: Hierarchy loops among %s" % sorted(bad.keys()))
+          for i, j in sorted(bad.items()):
+              children[j].remove(i)
+              nodes[i] = None
+
+          # Continue loop over nodes without parent
+          keys = sorted(nodes.items())
+          for i, j in keys:
+              if j is None:
+                  cnt = tagChildren(i, cnt, 0)
+
+      # Write all results to the database
+      #if cls == ItemT:
+      with transaction.atomic(using=database):
+          cursor = connections[database].cursor()
+          execute_batch(
+              cursor,
+              "update %s set lft=%%s, rght=%%s, lvl=%%s where name = %%s"
+              % connections[database].ops.quote_name(Item._meta.db_table),
+              updates,
+          )
   image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='img/no_image.png')
   image_height = models.IntegerField(blank=True, null=True)
   image_width = models.IntegerField(blank=True, null=True)
@@ -21,7 +113,7 @@ class ItemT(Item):
   qr = models.ForeignKey(
     QR,
     verbose_name=_("QR код"),
-    on_delete=models.CASCADE,
+    on_delete=models.PROTECT,
     blank=True,
     null=True,
     db_index=False,
@@ -31,11 +123,20 @@ class ItemT(Item):
   barcode = models.ForeignKey(
     barcode,
     verbose_name=_("Штрих код"),
-    on_delete=models.CASCADE,
+    on_delete=models.PROTECT,
     blank=True,
     null=True,
     db_index=False,
     related_name='barcode_owners',
+  )
+  passport_label_template = models.ForeignKey(
+    "qm.Label",
+    verbose_name=_("Шаблон этикетки паспорта"),
+    on_delete=models.PROTECT,
+    blank=True,
+    null=True,
+    db_index=False,
+    related_name='label_passports',
   )
 
 class ConnectionList(AuditModel):
@@ -58,14 +159,14 @@ class ConnectionList(AuditModel):
   operation = models.ForeignKey(
       Operation,
       verbose_name=_("операция"),
-      on_delete=models.CASCADE,
+      on_delete=models.PROTECT,
       db_index=False,
       related_name='operation_cutlists',
   )
   item = models.ForeignKey(
       ItemT,
       verbose_name=_("провод"),
-      on_delete=models.CASCADE,
+      on_delete=models.PROTECT,
       db_index=False,
       related_name='item_cutlists',
   )
@@ -74,7 +175,7 @@ class ConnectionList(AuditModel):
   from_tip = models.ForeignKey(
       ItemT,
       verbose_name=_("наконечник начала провода"),
-      on_delete=models.CASCADE,
+      on_delete=models.PROTECT,
       blank=True,
       null=True,
       db_index=False,
@@ -86,7 +187,7 @@ class ConnectionList(AuditModel):
   from_seal = models.ForeignKey(
       ItemT,
       verbose_name=_("уплотнитель начала провода"),
-      on_delete=models.CASCADE,
+      on_delete=models.PROTECT,
       db_index=False,
       blank=True,
       null=True,
@@ -96,7 +197,7 @@ class ConnectionList(AuditModel):
   to_seal = models.ForeignKey(
       ItemT,
       verbose_name=_('уплотнитель конец провода'),
-      on_delete=models.CASCADE,
+      on_delete=models.PROTECT,
       db_index=False,
       blank=True,
       null=True,
@@ -107,7 +208,7 @@ class ConnectionList(AuditModel):
   to_tip = models.ForeignKey(
       ItemT,
       verbose_name=_("наконечник конца провода"),
-      on_delete=models.CASCADE,
+      on_delete=models.PROTECT,
       db_index=False,
       blank=True,
       null=True,
@@ -132,7 +233,7 @@ class SolderingScheme(AuditModel):
   item = models.ForeignKey(
       ItemT,
       verbose_name=_("Номенклатура"),
-      on_delete=models.CASCADE,
+      on_delete=models.PROTECT,
       db_index=False,
       related_name='item_soldering_scheme',
   )
@@ -142,26 +243,10 @@ class SolderingScheme(AuditModel):
     verbose_name_plural = _('Схемы пайки')  # Plural name
     ordering = ['item']
 
-class ProductLabel(AuditModel):
-  name = models.CharField(_("name"), max_length=300)
-  item = models.ForeignKey(ItemT, on_delete=models.CASCADE, related_name='labels', null=False, blank=False)
-  barcode = models.CharField(max_length=50, null=True, blank=True)
-  label_template = models.CharField(max_length=100, choices=(
-      ('standard', 'Стандартная'),
-      ('pro', 'Расширенная')
-  ))
-  def __str__(self):
-      return f"Этикетка {self.name} - {self.item.name}"
-  class Meta(AuditModel.Meta):
-    db_table = 'label'                 # Name of the database table
-    verbose_name = _('Этикетка')          # A translatable name for the entity
-    verbose_name_plural = _('Этикетки')  # Plural name
-    ordering = ['item']
-
 class MobileHanger(AuditModel):
   #id = models.AutoField(_("identifier"), primary_key=True)
   number = models.CharField(_("Номер"), blank=False, null=False)
-  current_item = models.ForeignKey(ItemT, on_delete=models.CASCADE, related_name='tied_hangers', null=True, blank=True)
+  current_item = models.ForeignKey(ItemT, on_delete=models.PROTECT, related_name='tied_hangers', null=True, blank=True)
   def __str__(self):
       return f"Вешало №{self.number} - {self.current_item.name}"
   class Meta(AuditModel.Meta):
@@ -171,7 +256,7 @@ class MobileHanger(AuditModel):
     ordering = ['number']
 
 class TraceScheme(AuditModel):
-  item = models.ForeignKey(ItemT, on_delete=models.CASCADE, related_name='trace_schemes', null=True, blank=True)
+  item = models.ForeignKey(ItemT, on_delete=models.PROTECT, related_name='trace_schemes', null=True, blank=True)
   wire_no = models.CharField(_('имя провода'), null=False, blank=False, max_length=20, help_text= _('Имя жилы или провода'))
   image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='uploads/img/no_image.png')
   image_height = models.IntegerField(blank=True, null=True)

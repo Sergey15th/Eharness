@@ -391,7 +391,7 @@ DATABASE_ROUTERS = ["freppledb.common.models.MultiDBRouter"]
 CSRF_FAILURE_VIEW = "freppledb.common.views.csrf_failure"
 
 # Settings for user uploaded files
-MEDIA_URL = "/uploads/"  # Do not change this
+MEDIA_URL = "/media/"  # Do not change this "/uploads/"
 # This list of allowed extensions is what github.com allows.
 # Be VERY careful about security when enlarging this list!
 MEDIA_EXTENSIONS = ".gif,.jpeg,.jpg,.png,.docx,.gz,.log,.pdf,.pptx,.txt,.xlsx,.zip"

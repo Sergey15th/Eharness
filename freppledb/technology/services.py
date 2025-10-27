@@ -2,7 +2,9 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from freppledb.technology.models import ConnectionList, ItemT
 from freppledb.input.models.operationplan import ManufacturingOrder
-from freppledb.qm.models import BatchList
+from freppledb.qm.models import Batch, ProductPassport, QualityControl
+from freppledb.codescan.models import *
+from freppledb.qm.services import print_passport_label_signal
 
 @receiver(pre_save)
 def technology_pre_save_receiver(sender, instance, **kwargs):
@@ -35,18 +37,78 @@ def technology_pre_save_receiver(sender, instance, **kwargs):
             if not instance.qr.image: #QR есть, но нужно сгенерить картинку
                 instance.qr.create_qr(instance.qr.qr)
                 instance.qr.save()
-        if instance.barcode_number is not None:
-            #new_barcode = barcode()
-            #new_barcode.create_barcode(instance.barcode_number)
-            #new_barcode.save()
-            #instance.barcode = new_barcode
+        if instance.barcode_number is not None: # Если есть номер штрих-кода
+            if instance.barcode is None: # проверяем, есть ли созданный штрих-код
+                # Если нет, то создаём новый
+                new_barcode = barcode()
+                new_barcode.create_barcode(instance.barcode_number)
+                new_barcode.save()
+                instance.barcode = new_barcode
             pass
     if sender == ManufacturingOrder:
         # Необходимо определить, является ли заказ новым
+        # создаем новую партию
         try: # Определим, не создана ли уже партия номенклатуры под наш заказ 
-            bl = BatchList.objects.get(manufacturing_order=instance)
+            bl = Batch.objects.get(manufacturing_order=instance)
             # Уже создана, ничего не делаем
             pass
         except:
             # Партии номенклатуры нет, создаём новую
+            try: # Ищем все паспорта продукта и находим максимальный серийный номер
+                batch_product_passports_last_serialnumber = ProductPassport.objects.filter(manufacturing_order__item=instance.operation.item).order_by("-serial_number").first().serial_number # последний серийный номер
+                batch_product_passports_last_serialnumber += 1 # Будем создавать паспорта с серийными номерами, следующими за максимальным
+            except:
+                batch_product_passports_last_serialnumber = 0 # Паспортов вообще нет
+            new_batch = Batch()            
+            new_batch.manufacturing_order = instance
+            new_batch.serie_no_start = batch_product_passports_last_serialnumber
+            new_batch.save()
+            pass
+    if sender == Batch: #Партия номенклатуры создаёт этикетки изделий
+        # Проверяем, есть ли уже паспорта для созданной партии:
+        if not instance.serials_created:
+            for i in range(int(instance.serie_no_start), int(instance.serie_no_start) + int(instance.manufacturing_order.quantity)):
+                Passport = ProductPassport()
+                Passport.manufacturing_order = instance.manufacturing_order
+                Passport.serial_number = i
+                Passport.product = ItemT.objects.get(item_ptr_id=instance.manufacturing_order.operation.item)
+                try:
+                    current_qr = LastUsedQR.objects.get(model='B') # Паспорт изделия
+                except Exception as e:
+                    current_qr = LastUsedQR(model='B', qr='0000')
+                current_qr.qr = current_qr._next_id()
+                new_qr = QR()
+                new_qr.create_qr(current_qr.model + current_qr.qr)
+                current_qr.save()
+                new_qr.save()
+                Passport.product_qrcode = new_qr
+                Passport.save()
+            instance.serials_created = True
+
+        pass
+    if sender == ProductPassport: #Обновился паспорт продукта
+        pp_item = ItemT.objects.get(item_ptr_id=instance.manufacturing_order.operation.item)
+        instance.label_path = pp_item.passport_label_template.template
+        pass
+    if sender == QualityControl: #Создан результат контроля качества
+        if instance.control_result == 'СООТВЕТСТВУЕТ':
+            controlled_item = ItemT.objects.get(item_ptr_id=instance.product_passport.manufacturing_order.operation.item)
+            # Проверить, выполнены ли у продукта все контроли качества на 'СООТВЕТСТВУЕТ'
+            for need_check in controlled_item.qm_control_types.all():
+                try:
+                    last_checks_maked = QualityControl.objects.filter(type=need_check).order_by('date').first().control_result
+                    if last_checks_maked !='СООТВЕТСТВУЕТ':
+                        return # Если последняя по дате проверка не отрицательная
+                except:
+                    # Или если проверок вообще не было, и текущая положительная проверка не требуемая
+                    if need_check.type != instance.type.type:
+                        return
+            # Все проверки пройдены, нужно закрыть паспорт
+            instance.product_passport.status = 'Закрыт'
+            instance.product_passport.save()
+
+            # TODO:
+            # ВЫПУЩЕНА И ПРИНЯТА ГОТОВАЯ ПРОДУКЦИЯ,
+            # СФОРМИРОВАТЬ ШИЛЬДИК ПРОДУКТА И РАСПЕЧАТАТЬ 
+            print_passport_label_signal.send(sender=QualityControl, instance=instance) #, request=request
             pass

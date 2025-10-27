@@ -4,5 +4,6 @@
         "editor.formatOnPaste": false,
         "editor.formatOnSaveMode": "file"
     },
-    "esbonio.sphinx.confDir": ""
+    "esbonio.sphinx.confDir": "",
+    "python-envs.pythonProjects": []
 }
