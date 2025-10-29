@@ -73,7 +73,6 @@ def escape_text(text):
                 .replace('>', '&gt;')
                 .replace('"', '&quot;')
                 .replace("'", '&apos;'))
-
 def save_svg_to_file(svg_content, filename):
     """Сохраняет SVG в файл"""
     with open(os.path.join(filename), 'w', encoding='utf8') as svgout:
