@@ -4,3 +4,4 @@ from .productpassportlist import ProductPassportList
 from .qualitycontrollist import QualityControlList
 from .qualitycontroltypeslist import QualityControlTypesList
 from .productpassportlabel import ProductLabelPreviewView
+from .productpassportlabel_print import ProductLabelPrintView

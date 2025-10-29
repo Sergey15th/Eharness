@@ -24,7 +24,9 @@ if mode == "WSGI":
         # Шаблоны этикеток
         re_path(r"^data/qm/label/$", views.LabelList.as_view(), name="qm_label_changelist", ),
         # Готовые этикетки ProductPassport
-        re_path(r"^data/qm/productpassportlabel/$", ProductLabelPreviewView.as_view(), name='print_product_label'),
+        re_path(r"^data/qm/productpassportlabel/$", ProductLabelPreviewView.as_view(), name='preview_product_label'),
+        # Печать этикетки ProductPassport
+        re_path(r"^data/qm/productpassportlabelprint/$", ProductLabelPrintView.as_view(), name='print_product_label'),
         #path('labels/bulk-print/', views.BulkPrintLabelsView.as_view(), name='bulk_print_labels'),
 
         # REST API framework

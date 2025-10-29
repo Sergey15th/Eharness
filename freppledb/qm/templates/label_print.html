@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print SVG</title>
+    <style>
+        @media print {
+            body { margin: 0; padding: 0; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div id="svg-container"></div>
+    <button class="no-print" onclick="printSVG()">Печать</button>
+    
+    <script>
+        // Ваш SVG в виде строки (передайте из Django)
+        const svgContent = `{{ svg_content|safe }}`;
+        
+        // Вставляем SVG в контейнер
+        document.getElementById('svg-container').innerHTML = svgContent;
+        
+        function printSVG() {
+            window.print();
+        }
+        
+        // Автопечать при загрузке страницы
+        window.onload = function() {
+            // Раскомментируйте для автоматической печати
+            // window.print();
+        };
+    </script>
+</body>
+</html>

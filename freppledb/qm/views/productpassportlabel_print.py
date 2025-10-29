@@ -94,7 +94,7 @@ def print_svg_direct_windows(svg_content, printer_name=None):
         print(f"Ошибка печати: {e}")
         return False
 
-class ProductLabelPreviewView(View):
+class ProductLabelPrintView(View):
     """Предварительный просмотр шильдика"""
     def get(self, request):
         product_id = request.GET.get('id')
@@ -109,7 +109,7 @@ class ProductLabelPreviewView(View):
             <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Просмотр этикетки</title>
+                    <title>Печать этикетки</title>
                     <style>
                         @media print {{
                             body {{ margin: 0; padding: 0; }}
@@ -122,7 +122,7 @@ class ProductLabelPreviewView(View):
                         window.onload = function() {{
                             // window.print();
                             // Закрыть окно после печати (опционально)
-                            //setTimeout(function() {{ window.close();  }}, 3000);
+                            setTimeout(function() {{ window.close();  }}, 3000);
                         }};
                     </script>
                 </head>
@@ -137,6 +137,7 @@ class ProductLabelPreviewView(View):
         """
         #response = HttpResponse(svg_content, content_type='image/svg+xml')
         #return response
+        print_svg_direct_windows(svg_content)
         return HttpResponse(html_content)
     
 def download_svg(request):
