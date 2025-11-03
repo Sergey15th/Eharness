@@ -18,11 +18,11 @@ class ConnectionList_admin(MultiDBModelAdmin):
     search_fields = ("hanged_no", "description") # По каким полям может поиск на странице просмотра списка
     exclude = ("source",)
     fieldsets = (
-        (None, {"fields": ("hanged_no", "operation", "SP_pos", "item", "wire_no", "quantity", "from_tip", "start_strip", "start_tinning", "from_seal", "length", "to_seal", "end_tinning", "end_strip", "to_tip", )}),
+        (None, {"fields": ("hanged_no", "operation", "SP_pos", "item", "wire_no", "quantity", "from_tip", "start_strip", "start_tinning", "from_seal", "from_connector", "from_pin", "sygnal", "length", "to_seal", "to_connector", "to_pin", "end_tinning", "end_strip", "to_tip", )}),
         (
             _("advanced"), # Поля, которые показываются в detail view при нажатии плюсика
             {
-                "fields": ["allowance", "soldering", ]
+                "fields": ["allowance", "soldering"]
                 + [a[0] for a in getAttributes(ConnectionList) if a[3]],
                 "classes": ("collapse",),
             },
@@ -54,7 +54,7 @@ class ItemT_admin(MultiDBModelAdmin):
         (
             _("advanced"),
             {
-                "fields": ["category", "subcategory", "type", "passport_label_template", "volume", "weight", "image", "image_height", "image_width", "short_name",]
+                "fields": ["category", "subcategory", "type", "passport_label_template", "volume", "weight", "image", "image_height", "image_width", "short_name", "opposite_item"]
                 + [a[0] for a in getAttributes(ItemT) if a[3]],
                 "classes": ("collapse",),
             },

@@ -110,5 +110,5 @@ def technology_pre_save_receiver(sender, instance, **kwargs):
             # TODO:
             # ВЫПУЩЕНА И ПРИНЯТА ГОТОВАЯ ПРОДУКЦИЯ,
             # СФОРМИРОВАТЬ ШИЛЬДИК ПРОДУКТА И РАСПЕЧАТАТЬ 
-            print_passport_label_signal.send(sender=QualityControl, instance=instance) #, request=request
+            print_passport_label_signal.send(sender=QualityControl, instance=instance)
             pass

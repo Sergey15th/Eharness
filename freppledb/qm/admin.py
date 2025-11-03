@@ -89,7 +89,7 @@ class QualityControl_admin(MultiDBModelAdmin):
     search_fields = ("date", )
     raw_id_fields = ("product_passport",) # Показывать поле как текстовое, а не как выпадающий список
     fieldsets = (
-        (None, {"fields": ("product_passport", "type", "control_result", "control_result_log", )}),
+        (None, {"fields": ("product_passport", "type", )}), # "control_result", "control_result_log",
     )
     tabs = [
         {

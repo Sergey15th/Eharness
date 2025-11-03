@@ -7,6 +7,11 @@ import re
 from django.core.exceptions import ValidationError
 #from freppledb.technology.models import ItemT
 
+class ControlType(models.TextChoices):
+   CONTINUITY = _('прозвонка')
+   VISUAL = _('визуальный контроль')
+   CLIMATE = _('климатические испытания')
+
 class Label(AuditModel):
   def validate_svg(file):
     SVG_R = r'(?:<\?xml\b[^>]*>[^<]*)?(?:<!--.*?-->[^<]*)*(?:<svg|<!DOCTYPE svg)\b'
@@ -73,6 +78,9 @@ class ProductPassport(AuditModel):
           return self.date.strftime('%d.%m.%Y %H:%M')
       return None
   serial_number = models.IntegerField(_('s/n'), null=False, blank=True)
+  @property
+  def serial_number_str(self):
+     return f"{self.serial_number:05d}"
   manufacturing_order = models.ForeignKey(
       ManufacturingOrder,
       verbose_name=_("Заказ в производство"),
@@ -113,16 +121,8 @@ class ProductPassport(AuditModel):
 # класс quality_control_types, в котором создаются требования к видам контроля качества номенклатуры
 class QualityControlTypes(AuditModel):
   id = models.AutoField(_("identifier"), primary_key=True)
-  item = models.ForeignKey(
-      "technology.ItemT",
-      verbose_name=_("Объект контроля"),
-      on_delete=models.PROTECT,
-      null=False,
-      blank=False,
-      db_index=False,
-      related_name='qm_control_types',
-  )
-  type = models.CharField(max_length=200, null=False, blank=False)
+  item = models.ForeignKey("technology.ItemT", verbose_name=_("Объект контроля"), on_delete=models.PROTECT, null=False, blank=False, db_index=False, related_name='qm_control_types', )
+  type = models.CharField(max_length=200, null=False, blank=False, choices=ControlType.choices, default=ControlType.CONTINUITY)
   def __str__(self):
     # Fixed: was using self.name twice, changed to show barcode if available
     return f"Тип контроля качества {self.item.name} - {self.type}"
@@ -136,24 +136,8 @@ class QualityControlTypes(AuditModel):
 class QualityControl(AuditModel):
   id = models.AutoField(_("identifier"), primary_key=True)
   date = models.DateTimeField(auto_now=True)
-  product_passport = models.ForeignKey(
-      ProductPassport,
-      verbose_name=_("Паспорт продукта"),
-      on_delete=models.PROTECT,
-      null=False,
-      blank=False,
-      db_index=False,
-      related_name='quality_control_results',
-  )
-  type = models.ForeignKey(
-      QualityControlTypes,
-      verbose_name=_("Вид контроля"),
-      on_delete=models.PROTECT,
-      null=False,
-      blank=False,
-      db_index=False,
-      related_name='type_quality_controls',
-  )
+  product_passport = models.ForeignKey(ProductPassport, verbose_name=_("Паспорт продукта"), on_delete=models.PROTECT, null=False, blank=False, db_index=False, related_name='quality_control_results', )
+  type = models.ForeignKey(QualityControlTypes, verbose_name=_("Вид контроля"), on_delete=models.PROTECT, null=False, blank=False, db_index=False, related_name='type_quality_controls', )
   control_result = models.CharField(max_length=50, null=True, blank=True)
   control_result_log = models.JSONField(default=dict, null=True, blank=True, help_text="Отчёт по результатам контроля")
   def __str__(self):
@@ -166,3 +150,4 @@ class QualityControl(AuditModel):
     db_table = 'qm_quality_control'                 # Name of the database table
     verbose_name = _('Контроль качества')          # A translatable name for the entity
     verbose_name_plural = _('Контроль качества')  # Plural name
+

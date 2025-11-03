@@ -591,6 +591,13 @@ jQuery.extend($.fn.fmatter, {
   imagenew: function (cellvalue, options, rowdata) {
     if (typeof cellvalue !== 'string') return '';
     else
+      return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>';
+  }
+});
+jQuery.extend($.fn.fmatter, {
+  imagenew2: function (cellvalue, options, rowdata) {
+    if (typeof cellvalue !== 'string') return '';
+    else
       return '<img src="/uploads/' + cellvalue + '" style="max-width: 400px; max-height: 100px;" </img>';
   }
 });

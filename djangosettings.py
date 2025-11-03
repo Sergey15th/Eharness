@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     "freppledb.boot",
     # Add any project specific apps here
     "freppledb.technology",
+    "freppledb.testbench",
     "freppledb.codescan",
     "freppledb.qm",
     # "freppledb.odoo",

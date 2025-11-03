@@ -129,6 +129,9 @@ class CutListSerializer(BulkSerializerMixin, ModelSerializer):
             "wire_no",
             "quantity",
             "from_tip",
+            "from_connector",
+            "from_pin",
+            "sygnal",
             "start_strip",
             "start_tinning",
             "from_seal",
@@ -137,6 +140,8 @@ class CutListSerializer(BulkSerializerMixin, ModelSerializer):
             "end_tinning",
             "end_strip",
             "to_tip",
+            "to_connector",
+            "to_pin",
             "allowance",
             "soldering",
             "source",
@@ -169,6 +174,7 @@ class ItemTFilter(FilterSet):
         fields = dict(
             {
                 "name": ["exact", "in", "contains"],
+                "opposite_item": ["exact", "in"],
                 "owner": ["exact", "in"],
                 "description": ["exact", "in", "contains"],
                 "category": ["exact", "in", "contains"],
@@ -192,6 +198,7 @@ class ItemTSerializer(BulkSerializerMixin, ModelSerializer):
         model = models.ItemT
         fields = (
             "name",
+            "opposite_item",
             "owner",
             "qr",
             "description",

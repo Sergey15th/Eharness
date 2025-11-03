@@ -28,7 +28,7 @@
      showgrid="true"
      inkscape:zoom="2.0000001"
      inkscape:cx="197.99999"
-     inkscape:cy="223.74999"
+     inkscape:cy="224.24999"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
      inkscape:window-x="-9"
@@ -426,7 +426,7 @@
              stroke="none"
              style="white-space:pre;stroke-width:0.00984932"
              id="tspan37"
-             template-id="serial_number1">{serial}</tspan></tspan></tspan></text>
+             template-id="serial_number_str1">{serial}</tspan></tspan></tspan></text>
     <text
        class="SVGTextShape"
        id="text42"
@@ -590,7 +590,7 @@
              stroke="none"
              style="white-space:pre;stroke-width:0.00984932"
              id="tspan37-3"
-             template-id="serial_number2">{serial}</tspan></tspan></tspan></text>
+             template-id="serial_number_str2">{serial}</tspan></tspan></tspan></text>
     <text
        class="SVGTextShape"
        id="text42-2"

@@ -42,6 +42,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 #TODO: ПЕРЕНЕСТИ В SERVICES
+# Сделать разные операции для нарезки и зачистки, обжимки, пайки.
+# Для того, чтобы данные отображались во всех view, сделать фильтр для connectionlist типа:
+# ?subop=''
+
 @csrf_exempt
 def CodeScanned(request):
     if request.method == 'POST':
