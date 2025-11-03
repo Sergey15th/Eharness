@@ -19,9 +19,9 @@ def technology_pre_save_receiver(sender, instance, **kwargs):
             instance.qr = current_qr.model + current_qr.qr
             current_qr.save()
     if sender == ItemT: # Если сохраняем Номенклатуру:
-        if instance.image.name is None:
-            instance.image = 'img/no_image.png'
-            instance.imagef = 'img/no_image_F.png'
+        #if instance.image.name is None:
+        #    instance.image = 'img/no_image.png'
+        #    instance.imagef = 'img/no_image_F.png'
         if instance.qr is None: # Если QR кода нет
             try:
                 current_qr = LastUsedQR.objects.get(model='6') # Номенклатура

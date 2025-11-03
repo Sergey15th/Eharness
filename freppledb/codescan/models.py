@@ -31,7 +31,7 @@ class QR(AuditModel):
         self.image = 'img/qr/' + qr_filename  + '.png'
         return self.image
     qr = models.CharField(primary_key=True, blank=False, null=False)
-    image = models.ImageField(upload_to='qr/', height_field='image_height', width_field='image_width', null=True, blank=False, default='img/no_image.png')
+    image = models.ImageField(upload_to='qr/', height_field='image_height', width_field='image_width', null=True, blank=False, default=None)
     image_height = models.IntegerField(blank=True, null=True)
     image_width = models.IntegerField(blank=True, null=True)
     type = models.CharField(max_length=50, blank=False, null=False)
@@ -46,7 +46,7 @@ class barcode(AuditModel):
         return self.image
     
     barcode = models.CharField(primary_key=True, blank=False, null=False)
-    image = models.ImageField(upload_to='barcode/', height_field='image_height', width_field='image_width', null=True, blank=False, default='img/no_image.png')
+    image = models.ImageField(upload_to='barcode/', height_field='image_height', width_field='image_width', null=True, blank=False, default=None)
     image_height = models.IntegerField(blank=True, null=True)
     image_width = models.IntegerField(blank=True, null=True)
     type = models.CharField(max_length=50, blank=False, null=False)

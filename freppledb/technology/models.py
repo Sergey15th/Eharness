@@ -102,10 +102,10 @@ class ItemT(Item):
               % connections[database].ops.quote_name(Item._meta.db_table),
               updates,
           )
-  image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='img/no_image.png')
+  image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default=None)
   image_height = models.IntegerField(blank=True, null=True)
   image_width = models.IntegerField(blank=True, null=True)
-  imagef = models.ImageField(upload_to='img/', height_field='imagef_height', width_field='imagef_width', null=True, blank=True, default='img/no_image_F.png')
+  imagef = models.ImageField(upload_to='img/', height_field='imagef_height', width_field='imagef_width', null=True, blank=True, default=None)
   imagef_height = models.IntegerField(blank=True, null=True)
   imagef_width = models.IntegerField(blank=True, null=True)
   short_name = models.CharField(_('арт.'), null=True, blank=True)
@@ -183,7 +183,7 @@ class MobileHanger(AuditModel):
 class TraceScheme(AuditModel):
   item = models.ForeignKey(ItemT, on_delete=models.PROTECT, related_name='trace_schemes', null=True, blank=True)
   wire_no = models.CharField(_('имя провода'), null=False, blank=False, max_length=20, help_text= _('Имя жилы или провода'))
-  image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default='uploads/img/no_image.png')
+  image = models.ImageField(upload_to='img/', height_field='image_height', width_field='image_width', null=True, blank=True, default=None)
   image_height = models.IntegerField(blank=True, null=True)
   image_width = models.IntegerField(blank=True, null=True)
   class Meta(AuditModel.Meta):
