@@ -32,10 +32,10 @@ class CodeScanEventFilter(FilterSet):
 class UserCodesFilter(FilterSet):
     class Meta:
         model = UserCodes
-        fields = dict(
-            {
-                "user": ["exact", ],
-                "code": ["exact", ],
+        fields = {
+            "id": ["exact", ],
+            "user": ["exact", ],
+            "code": ["exact", ],
             },
             **getAttributeAPIFilterDefinition(UserCodes),
         )
@@ -82,6 +82,7 @@ class UserCodesSerializer(BulkSerializerMixin, ModelSerializer):
    class Meta:
         model = UserCodes
         fields = (
+            "id",
             "user",
             "code",
         ) + getAttributeAPIFields(UserCodes)

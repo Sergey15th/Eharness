@@ -116,8 +116,8 @@ class ItemT(Item):
   passport_label_template = models.ForeignKey("qm.Label", verbose_name=_("Шаблон этикетки паспорта"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='label_passports', )
   opposite_item = models.ForeignKey("self", verbose_name=_("Ответная часть"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='opposite_items', )
 
-
 class ConnectionList(AuditModel):
+
   # Database fields
   id = models.AutoField(_("identifier"), primary_key=True)
   hanged_no = models.CharField(_('№ на вешале'), null=True, blank=True, max_length=20, help_text= _('Номер крючка на вешале'))

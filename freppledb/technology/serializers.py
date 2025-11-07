@@ -1,4 +1,5 @@
 from rest_framework.serializers import SerializerMethodField, PrimaryKeyRelatedField
+#from rest_framework.serializers import CharField
 from rest_framework_bulk.drf3.serializers import BulkListSerializer, BulkSerializerMixin
 
 from freppledb.common.api.views import (
@@ -47,6 +48,10 @@ class ConnectionListFilter(FilterSet):
         filter_fields = fields.keys()
 
 class ConnectionListSerializer(BulkSerializerMixin, ModelSerializer):
+    #from_tip_short_name = CharField(source='from_tip.short_name', read_only=True)
+    #to_tip_short_name = CharField(source='to_tip.short_name', read_only=True)
+    #from_seal_short_name = CharField(source='from_seal.short_name', read_only=True)
+    #to_seal_short_name = CharField(source='to_seal.short_name', read_only=True)
     class Meta:
         model = models.ConnectionList
         fields = (
@@ -64,6 +69,10 @@ class ConnectionListSerializer(BulkSerializerMixin, ModelSerializer):
             "length",
             "to_seal",
             "end_tinning",
+            #"from_tip_short_name",
+            #"to_tip_short_name",
+            #"from_seal_short_name",
+            #"to_seal_short_name",
             "end_strip",
             "to_tip",
             "allowance",

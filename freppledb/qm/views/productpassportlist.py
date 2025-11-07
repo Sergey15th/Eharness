@@ -92,7 +92,7 @@ class ProductPassportList(GridReport):
         GridFieldText("labeltemplate", title=_("Шаблон этикетки"), field_name="label_path", key=False, formatter="showlink",
                       extra = ('"formatoptions": {"baseLinkUrl":"/data/qm/productpassportlabel/", "showaction ":"255", "target":"_blank"}'), #, "addParam": "?source=grid"
                       editable=False),
-        GridFieldText("manufacturing_order__batch", title=_("Серия"), field_name="manufacturing_order__batch", editable=False),
+        GridFieldText("manufacturing_order__batch", title=_("Партия"), field_name="manufacturing_order__batch", editable=False),
         GridFieldText("product_qrcode", title=_("QR"), field_name="product_qrcode", editable=False),
         GridFieldText("status", title=_("Состояние"), field_name="status", editable=False),
         GridFieldText("part_name", title=_("Чертёж"), field_name="part_name", ),

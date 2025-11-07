@@ -591,9 +591,68 @@ jQuery.extend($.fn.fmatter, {
   imagenew: function (cellvalue, options, rowdata) {
     if (typeof cellvalue !== 'string') return '';
     else
-      return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>';
+      return '<div style="text-align: center;">' +
+    '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>' +
+    '<div style="margin-top: 0px; font-size: 10px;">' +
+    (rowdata.short_name || '') +
+    '</div>' +
+    '</div>';
+      //return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>';
   }
 });
+jQuery.extend($.fn.fmatter, {
+  image_from_tip: function (cellvalue, options, rowdata) {
+    if (typeof cellvalue !== 'string') return '';
+    else
+      return '<div style="text-align: center;">' +
+    '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>' +
+    '<div style="margin-top: 0px; font-size: 10px;">' +
+    (rowdata.from_tip__short_name || '') +
+    '</div>' +
+    '</div>';
+      //return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>';
+  }
+});
+jQuery.extend($.fn.fmatter, {
+  image_to_tip: function (cellvalue, options, rowdata) {
+    if (typeof cellvalue !== 'string') return '';
+    else
+      return '<div style="text-align: center;">' +
+    '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>' +
+    '<div style="margin-top: 0px; font-size: 10px;">' +
+    (rowdata.to_tip__short_name || '') +
+    '</div>' +
+    '</div>';
+      //return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>';
+  }
+});
+jQuery.extend($.fn.fmatter, {
+  image_from_seal: function (cellvalue, options, rowdata) {
+    if (typeof cellvalue !== 'string') return '';
+    else
+      return '<div style="text-align: center;">' +
+    '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>' +
+    '<div style="margin-top: 0px; font-size: 10px;">' +
+    (rowdata.from_seal__short_name || '') +
+    '</div>' +
+    '</div>';
+      //return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>';
+  }
+});
+jQuery.extend($.fn.fmatter, {
+  image_to_seal: function (cellvalue, options, rowdata) {
+    if (typeof cellvalue !== 'string') return '';
+    else
+      return '<div style="text-align: center;">' +
+    '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>' +
+    '<div style="margin-top: 0px; font-size: 10px;">' +
+    (rowdata.to_seal__short_name || '') +
+    '</div>' +
+    '</div>';
+      //return '<img src="/uploads/' + cellvalue + '" style="max-width: 80px; max-height: 80px;" </img>';
+  }
+});
+
 jQuery.extend($.fn.fmatter, {
   imagenew2: function (cellvalue, options, rowdata) {
     if (typeof cellvalue !== 'string') return '';

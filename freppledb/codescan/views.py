@@ -255,14 +255,8 @@ class UserCodesList(GridReport):
         """
     )
     rows = (
-        GridFieldText(
-            "user",
-            title=_("user"),
-            field_name="user__username",
-            editable=False,
-            align="center",
-            width=80,
-        ),
+        GridFieldInteger("id", title=_("id"), key=True, formatter="detail", extra='"role":"codescan/usercodes"', ),
+        GridFieldText("user", title=_("user"), field_name="user__username", editable=False, align="center", width=80, ),
         GridFieldText("code", title=_("Код RFID карты")),
         GridFieldText("source", title=_("source")),
         GridFieldLastModified("lastmodified"),

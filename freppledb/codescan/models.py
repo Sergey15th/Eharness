@@ -52,14 +52,7 @@ class barcode(AuditModel):
     type = models.CharField(max_length=50, blank=False, null=False)
 
 class UserCodes(AuditModel):
-    user = models.ForeignKey(
-        to=User,
-        null=True,
-        on_delete=models.PROTECT,
-        blank=True,
-        verbose_name="User",
-        db_comment="User",
-        )
+    user = models.ForeignKey(to=User, null=True, on_delete=models.PROTECT, blank=True, verbose_name="User", db_comment="User")
     code = models.CharField(max_length=100, blank=False, null=False)
     class Meta:
         verbose_name = "User passcard"

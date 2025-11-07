@@ -50,7 +50,7 @@ class Batch(AuditModel): # Партия номенклатуры
   serie_no_start = models.DecimalField(_("Начальный s/n"), max_digits=20, decimal_places=0,)
   serials_created = models.BooleanField(_("s/n созданы"), blank=True, default = False, )
   def __str__(self):
-     return
+     return 'партия-' + str(ManufacturingOrder.batch) + '(' + str(ManufacturingOrder.name) + ')'
   class Meta(AuditModel.Meta):
     db_table = 'batch_list'                 # Name of the database table
     verbose_name = _('Серия номенклатуры')          # A translatable name for the entity
