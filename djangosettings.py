@@ -106,6 +106,21 @@ DATABASES = {
 # The value None disables this feature.
 GOOGLE_ANALYTICS = None
 
+# Celery configuration (optional). Configure via environment variables.
+# Examples:
+#   set FREPPLE_CELERY_BROKER_URL=redis://localhost:6379/0
+#   set FREPPLE_CELERY_RESULT_BACKEND=redis://localhost:6379/1
+# If left empty, no broker is configured and Celery workers will not start.
+CELERY_BROKER_URL = os.environ.get("FREPPLE_CELERY_BROKER_URL", os.environ.get("CELERY_BROKER_URL", os.environ.get("BROKER_URL", "")))
+CELERY_RESULT_BACKEND = os.environ.get("FREPPLE_CELERY_RESULT_BACKEND", os.environ.get("CELERY_RESULT_BACKEND", os.environ.get("RESULT_BACKEND", "")))
+
+# Recommended defaults for common Celery options (can be overridden in env)
+CELERY_TASK_ALWAYS_EAGER = os.environ.get("FREPPLE_CELERY_TASK_ALWAYS_EAGER", "false").lower() == "true"
+CELERY_TASK_STORE_ERRORS_EVEN_IF_IGNORED = os.environ.get(
+    "FREPPLE_CELERY_TASK_STORE_ERRORS_EVEN_IF_IGNORED", "false"
+).lower() == "true"
+
+
 # Installed applications.
 # The order is important: urls, templates and menus of the earlier entries
 # take precedence over and override later entries.
