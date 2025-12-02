@@ -5,4 +5,4 @@ class TestbenchConfig(AppConfig):
     name = 'freppledb.testbench'
     def ready(self):
         # Импортируем сигналы здесь, чтобы избежать circular imports
-        from . import services
+        from .services import services

@@ -4,7 +4,7 @@ from freppledb.qm.models import ProductPassport
 from freppledb.technology.models import ItemT
 from freppledb.settings import MEDIA_ROOT, MEDIA_URL
 from django.db.models.signals import pre_save, post_save
-from freppledb.qm.models import QualityControl
+from freppledb.qm.models import QualityControl, ControlType
 
 import svglue
 import os
@@ -40,6 +40,7 @@ def technology_post_save_receiver(sender, instance, **kwargs):
             instance.product_passport.save()
 
             # TODO:
+            pass
             # ВЫПУЩЕНА И ПРИНЯТА ГОТОВАЯ ПРОДУКЦИЯ,
             # СФОРМИРОВАТЬ ШИЛЬДИК ПРОДУКТА И РАСПЕЧАТАТЬ 
             #print_passport_label_signal.send(sender=QualityControl, instance=instance) #, request=request
@@ -49,8 +50,10 @@ def technology_post_save_receiver(sender, instance, **kwargs):
 def technology_pre_save_receiver(sender, instance, **kwargs):
     # Your logic here, e.g., modify instance.field
     if sender == QualityControl: #Создан результат контроля качества
-        
-        pass
+        if sender.type == ControlType.CONTINUITY: # Запускаем прозвонку
+            # Сформировать план проверки и запустить проверку
+            print('sender=QualityControl, sender.type=ControlType.CONTINUITY')
+            pass
     pass
 
 @receiver(print_passport_label_signal)

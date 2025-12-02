@@ -1,1 +1,2 @@
 from .benchconnectorslist import BenchConnectorsList
+from .benchchannelslist import BenchChannelsList

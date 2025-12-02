@@ -7,7 +7,7 @@ from freppledb.menu import menu
 
 import freppledb.testbench.views
 from freppledb.testbench.models import (
-   BenchConnectors
+   BenchConnectors, BenchChannels
 )
 import freppledb.testbench.views.benchconnectorslist
 
@@ -21,4 +21,12 @@ menu.addItem(
     report=freppledb.testbench.views.benchconnectorslist.BenchConnectorsList,
     index=31,
     model=BenchConnectors,
+)
+menu.addItem(
+    "testbench",
+    "benchchannelslist",
+    url="/data/testbench/benchchannels/",
+    report=freppledb.testbench.views.benchchannelslist.BenchChannelsList,
+    index=32,
+    model=BenchChannels,
 )

@@ -60,17 +60,9 @@ class QualityControlList(GridReport):
         """
     )
     rows = (
-        GridFieldText("id", title=_("ID"), formatter="detail", model=ProductPassport, extra='"role":"qm/qualitycontrol"',),
+        GridFieldText("id", title=_("ID"), formatter="text", model=ProductPassport, extra='"role":"qm/qualitycontrol"',),
         GridFieldDateTime("date", title=_("Дата создания"), extra = ('"formatoptions":{"srcformat":"Y-m-d H:i:s","newformat":"%s H:i:s"}' % settings.DATE_FORMAT), editable=False),
-        GridFieldHierarchicalText(
-            "product_passport",
-            title=_("Паспорт продукта"),
-            field_name="product_passport",
-            key=False,
-            formatter="detail",
-            extra='"role":"qm/productpassport"',
-            model=ProductPassport,
-        ),
+        GridFieldHierarchicalText("product_passport", title=_("Паспорт продукта"), field_name="product_passport", key=False, formatter="text", extra='"role":"qm/productpassport"', model=ProductPassport, ),
         GridFieldText("type", title=_("Вид проверки"), field_name="type__type", editable=False),
         GridFieldText("control_result", title=_("Результат"), field_name="control_result", editable=False),
         GridFieldText("control_result_log", title=_("Данные контроля"), field_name="control_result_log", editable=False),

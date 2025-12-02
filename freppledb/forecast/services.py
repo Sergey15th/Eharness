@@ -21,7 +21,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-import frepple
+#import frepple
 
 import json
 
@@ -30,7 +30,6 @@ from channels.generic.http import AsyncHttpConsumer
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-
 
 from freppledb.webservice.utils import lock
 from freppledb.common.localization import parseLocalizedDateTime

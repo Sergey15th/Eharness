@@ -81,6 +81,13 @@ class ProductPassport(AuditModel):
   @property
   def serial_number_str(self):
      return f"{self.serial_number:05d}"
+  @property
+  def name(self):
+      """Возвращает отформатированное наименоване"""
+      return f'{self.manufacturing_order.reference}-{self.manufacturing_order.batch}-{self.serial_number_str}'
+
+  serial_number = models.IntegerField(_('s/n'), null=False, blank=True)
+
   manufacturing_order = models.ForeignKey(
       ManufacturingOrder,
       verbose_name=_("Заказ в производство"),
@@ -125,7 +132,7 @@ class QualityControlTypes(AuditModel):
   type = models.CharField(max_length=200, null=False, blank=False, choices=ControlType.choices, default=ControlType.CONTINUITY)
   def __str__(self):
     # Fixed: was using self.name twice, changed to show barcode if available
-    return f"Тип контроля качества {self.item.name} - {self.type}"
+    return f"Контроль качества {self.item.name} - {self.type}"
   class Meta(AuditModel.Meta):
     db_table = 'qm_quality_control_types'                 # Name of the database table
     verbose_name = _('Требование контроля качества')          # A translatable name for the entity

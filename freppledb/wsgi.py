@@ -31,6 +31,10 @@ This is used by the different WSGI deployment options:
 
 import os
 import sys
+import django
+import asyncio
+from freppledb.testbench.services.harness_test_service import HarnessTestService
+from freppledb.testbench.services.com_port_service import TZ_04_Service
 
 # Assure frePPLe is found in the Python path.
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))

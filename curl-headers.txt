@@ -1,0 +1,43 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 127.0.0.1:8000...
+* Connected to localhost (127.0.0.1) port 8000 (#0)
+> GET /data/ HTTP/1.1
+> Host: localhost:8000
+> User-Agent: curl/8.0.1
+> Accept: */*
+> 
+< HTTP/1.1 302 Found
+< date: Sun, 30 Nov 2025 17:49:07 GMT
+< server: uvicorn
+< Content-Type: text/html; charset=utf-8
+< Location: /
+< Content-Length: 0
+< X-Frame-Options: SAMEORIGIN
+< Content-Security-Policy: frame-ancestors 'self'
+< strict-transport-security: max-age=864000
+< Vary: Cookie
+< 
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+* Connection #0 to host localhost left intact
+* Issue another request to this URL: 'http://localhost:8000/'
+* Found bundle for host: 0x15bbac700b0 [serially]
+* Re-using existing connection #0 with host localhost
+> GET / HTTP/1.1
+> Host: localhost:8000
+> User-Agent: curl/8.0.1
+> Accept: */*
+> 
+< HTTP/1.1 401 Unauthorized
+< date: Sun, 30 Nov 2025 17:49:07 GMT
+< server: uvicorn
+< Access-Control-Allow-Methods: GET, POST, OPTIONS
+< Server: frepple
+< Access-Control-Allow-Credentials: true
+< Access-Control-Allow-Headers: authorization, content-type, x-requested-with
+< Content-Type: text/plain
+< Transfer-Encoding: chunked
+< 
+{ [20 bytes data]
+100    15    0    15    0     0    299      0 --:--:-- --:--:-- --:--:--   299
+* Connection #0 to host localhost left intact

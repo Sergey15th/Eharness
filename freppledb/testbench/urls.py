@@ -15,9 +15,9 @@ if mode == "WSGI":
     urlpatterns = [
         # Таблица соединений
         re_path(r"^data/testbench/benchconnectors/$", views.BenchConnectorsList.as_view(), name="testbench_benchconnectors_changelist", ),
+        re_path(r"^data/testbench/benchchannels/$", views.BenchChannelsList.as_view(), name="testbench_benchchannels_changelist", ),
 
         # REST API framework
         re_path(r"^api/testbench/benchconnectors/$", serializers.BenchConnectorsListAPI.as_view()),
+        re_path(r"^api/testbench/benchchannels/$", serializers.BenchChannelsListAPI.as_view()),
    ]
-'''
-'''

@@ -63,3 +63,47 @@ class BenchConnectorsListdetailAPI(frePPleRetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return models.BenchConnectors.objects.using(self.request.database).all()
     serializer_class = BenchConnectorsListSerializer
+
+class BenchChannelsListFilter(FilterSet):
+    class Meta:
+        model = models.BenchChannels
+        fields = dict(
+            {   "id": ["exact", "in",],
+                "bench_connector": ["exact", "in", ],
+                "bench_pin_no": ["exact", "in", ],
+                "channel": ["exact", "in"],
+                "source": ["exact", "in"],
+                "lastmodified": ["exact", "in", "gt", "gte", "lt", "lte"],
+            },
+            **getAttributeAPIFilterDefinition(models.BenchChannels),
+        )
+        filter_fields = fields.keys()
+
+class BenchChannelsListSerializer(BulkSerializerMixin, ModelSerializer):
+    class Meta:
+        model = models.BenchChannels
+        fields = (
+            "id",
+            "bench_connector",
+            "bench_pin_no",
+            "channel",
+            "source",
+            "lastmodified",
+        ) + getAttributeAPIFields(models.BenchChannels)
+        read_only_fields = (
+            "lastmodified",
+        ) + getAttributeAPIReadOnlyFields(models.BenchChannels)
+        list_serializer_class = BulkListSerializer
+        update_lookup_field = "id"
+        partial = True
+
+class BenchChannelsListAPI(frePPleListCreateAPIView):
+    def get_queryset(self):
+        return models.BenchChannels.objects.using(self.request.database).all()
+    serializer_class = BenchChannelsListSerializer
+    filter_class = BenchChannelsListFilter
+
+class BenchChannelsListdetailAPI(frePPleRetrieveUpdateDestroyAPIView):
+    def get_queryset(self):
+        return models.BenchChannels.objects.using(self.request.database).all()
+    serializer_class = BenchChannelsListSerializer
