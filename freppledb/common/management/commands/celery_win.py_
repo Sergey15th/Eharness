@@ -1,0 +1,56 @@
+# freppledb/common/management/commands/celery_win_fixed.py
+"""
+Celery worker command for Windows - completely isolated from Django imports.
+"""
+
+import sys
+import os
+import subprocess
+from django.core.management.base import BaseCommand
+
+class Command(BaseCommand):
+    help = 'Запускает Celery worker для Windows (исправленная версия)'
+    
+    def handle(self, *args, **options):
+        self.stdout.write(self.style.SUCCESS('Starting Celery worker for Windows...'))
+        
+        # Полный путь к проекту
+        project_dir = os.path.dirname(os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))
+        )))
+        
+        # Команда для запуска в отдельном процессе
+        cmd = [
+            sys.executable,
+            '-m',
+            'celery',
+            '-A', 'freppledb',
+            'worker',
+            '--loglevel=info',
+            '--pool=solo',  # Используем solo для Windows
+            '--hostname=windows_worker@%h',
+            '--queues=default',
+            '--without-mingle',
+            '--without-gossip'
+        ]
+        
+        self.stdout.write(f"Running command: {' '.join(cmd)}")
+        
+        # Запуск процесса
+        process = subprocess.Popen(
+            cmd,
+            cwd=project_dir,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+            shell=True
+        )
+        
+        # Вывод логов
+        try:
+            for line in iter(process.stdout.readline, ''):
+                self.stdout.write(line.rstrip())
+        except KeyboardInterrupt:
+            self.stdout.write(self.style.WARNING("\nStopping Celery worker..."))
+            process.terminate()
+            process.wait()

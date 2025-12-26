@@ -661,6 +661,43 @@ jQuery.extend($.fn.fmatter, {
   }
 });
 
+// Formatter to render an LED action button per row
+jQuery.extend($.fn.fmatter, {
+  ledbutton: function (cellvalue, options, rowdata) {
+    // prefer explicit MQTT id field when available
+    var led = rowdata.light_led_mqtt_id;
+    var id = options.rowId;
+    return '<button class="btn btn-sm btn-outline-primary led-button" data-rowid="' + id + '" data-ledid="' + $.jgrid.htmlEncode(led) + '">' + gettext("Light") + '</button>';
+  }
+});
+
+// Click handler for LED buttons - uses REST API to schedule a task
+$(document).on('click', '.led-button', function (e) {
+  e.stopPropagation();
+  var btn = $(this);
+  var rowId = btn.data('rowid');
+  var led = btn.data('ledid');
+  if (!rowId) return;
+  btn.prop('disabled', true);
+  var url = window.url_prefix + '/api/testbench/benchconnectors/' + encodeURIComponent(rowId) + '/led/';
+  $.ajax({
+    method: 'POST',
+    url: url,
+    data: JSON.stringify({ action: 'on', led: led }),
+    contentType: 'application/json',
+    success: function (data) {
+      // flash the button briefly
+      btn.removeClass('btn-outline-primary').addClass('btn-success');
+      setTimeout(function () { btn.removeClass('btn-success').addClass('btn-outline-primary'); }, 800);
+    },
+    error: function (xhr) {
+      btn.removeClass('btn-outline-primary').addClass('btn-danger');
+      setTimeout(function () { btn.removeClass('btn-danger').addClass('btn-outline-primary'); }, 1400);
+    },
+    complete: function () { btn.prop('disabled', false); }
+  });
+});
+
 jQuery.extend($.fn.fmatter.percentage, {
   unformat: function (cellvalue, options, cell) {
     return cellvalue.replace("%", "");

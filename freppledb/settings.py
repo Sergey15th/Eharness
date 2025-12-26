@@ -721,3 +721,9 @@ for app in INSTALLED_APPS:
             raise ImproperlyConfigured(
                 "Only a single ERP connection app can be installed at a time"
             )
+
+import warnings
+warnings.filterwarnings("ignore", 
+    message=".*TripleDES has been moved to cryptography.hazmat.decrepit.*")
+warnings.filterwarnings("ignore", 
+    message=".*Blowfish has been moved to cryptography.hazmat.decrepit.*")

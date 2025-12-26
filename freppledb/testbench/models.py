@@ -21,10 +21,16 @@ class BenchConnectors(AuditModel):
     def __str__(self):
         return (str(id) + '-' + str(self.connector_name) + '-' + str(self.connector_designation)) 
     id = models.AutoField(_("identifier"), primary_key=True)
+    # Наименование разъёма
     connector_name = models.CharField(max_length=50, null=True, blank=True)
+    # Обозначение разъёма
     connector_designation = models.CharField(max_length=10, null=False, blank=False, unique=True)
+    # Разъём
     connector = models.ForeignKey(ItemT, verbose_name=_("Разъём стенда"), on_delete=models.PROTECT, db_index=False, related_name='item_testbench_connectors', blank=False, null=False, )
+    # Количество контактов у разъёма
     connector_pins_no = models.IntegerField(blank=False, null=False)
+    # MQTT адрес лампочки разъёма
+    light_led_mqtt_id = models.CharField(max_length=50, null=True, blank=True, verbose_name=_("MQTT ID светодиода"))
     class Meta(AuditModel.Meta):
         db_table = 'testbench_connectors'                 # Name of the database table
         verbose_name = _('Разъём стенда')          # A translatable name for the entity

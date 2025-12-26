@@ -35,3 +35,38 @@ and professional support.
 
 The *Cloud Edition* provides provides the same capabilities as the Enterprise Edition, but is
 hosted as a service in the cloud: fully supported and maintained by frePPLe bv.
+
+## Celery integration
+
+This project includes an optional Celery integration to run background tasks.
+
+Configuration
+- Set the broker and backend using environment variables, for example:
+	- `FREPPLE_CELERY_BROKER_URL=redis://localhost:6379/0`
+	- `FREPPLE_CELERY_RESULT_BACKEND=redis://localhost:6379/1`
+
+Running a worker
+
+- Activate the virtualenv and install requirements (if needed).
+- Start a worker from the project root:
+
+	```powershell
+	& .\venv\Scripts\Activate.ps1; celery -A freppledb worker -l info
+	```
+
+Starting periodic tasks (beat)
+
+	```powershell
+	& .\venv\Scripts\Activate.ps1; celery -A freppledb beat -l info
+	```
+
+Testing tasks
+
+- You can call tasks from Django shell or code, e.g.:
+
+	```python
+	from freppledb.common.tasks import example_add
+	example_add.delay(1, 2)
+	```
+
+If you prefer another broker (RabbitMQ, SQS, etc.) set the appropriate broker URL.

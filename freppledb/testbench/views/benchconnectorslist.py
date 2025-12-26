@@ -51,11 +51,11 @@ class BenchConnectorsList(GridReport):
     )
     rows = (
         GridFieldHierarchicalText("id", title=_("ID"), key=True, formatter="detail", extra='"role":"testbench/benchconnectors"', model=BenchConnectors, ),
+        GridFieldText("light_led_mqtt_id", title=_("LED"), formatter="ledbutton", searchable=False, editable=False, initially_hidden=False),
         GridFieldText("connector_name", title=_("Наименование разъёма")),
         GridFieldText("connector_designation", title=_("Обозначение на стенде"), ),
         GridFieldText("connector", title=_("Разъём"), field_name="connector", formatter="detail", extra='"role":"technology/itemt"', ),
         GridFieldNumber("connector_pins_no", title=_("Количество контактов"), ),
-
         GridFieldText("source", title=_("source"), initially_hidden=True),
         GridFieldLastModified("lastmodified"),
     )

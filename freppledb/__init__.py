@@ -16,14 +16,6 @@ VERSION = __version__  # Old custom way, deprecated
 # Recognize ASGI vs WSGI mode
 mode = "WSGI"
 
-# Import the celery app to ensure workers can be started with the project
-try:
-    # Local import so it doesn't break environments without celery installed
-    from .celery import app as celery_app  # noqa: F401
-except Exception:
-    celery_app = None
-
-
 def runCommand(taskname, *args, **kwargs):
     """
     Auxilary method to run a django command. It is intended to be used

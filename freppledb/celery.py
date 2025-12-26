@@ -23,16 +23,44 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Fallbacks for older style names
 if not app.conf.broker_url:
-    app.conf.broker_url = getattr(settings, "BROKER_URL", None) or getattr(
-        settings, "CELERY_BROKER_URL", None
-    )
+    app.conf.broker_url = getattr(settings, "BROKER_URL", None) or getattr(settings, "CELERY_BROKER_URL", None)
 if not app.conf.result_backend:
-    app.conf.result_backend = getattr(settings, "RESULT_BACKEND", None) or getattr(
-        settings, "CELERY_RESULT_BACKEND", None
-    )
+    app.conf.result_backend = getattr(settings, "RESULT_BACKEND", None) or getattr(settings, "CELERY_RESULT_BACKEND", None)
 
 # Autodiscover tasks from installed apps
+
+app.conf.update(
+    task_serializer='json',
+    accept_content=['json'],
+    result_serializer='json',
+    timezone='Europe/Moscow',
+    enable_utc=True,
+    task_routes={
+        'mqtt_tasks.publish_mqtt_message': {'queue': 'default'},
+        'mqtt_tasks.publish_mqtt_batch': {'queue': 'default'},
+    },
+    task_acks_late=True,
+    worker_prefetch_multiplier=1,
+    task_default_queue='default',
+    worker_max_tasks_per_child=1000,  # Перезапуск воркера после 1000 задач
+)
+
+from celery.schedules import crontab
+
+app.conf.beat_schedule = {
+    # Проверка здоровья каждые 5 минут
+    'mqtt-health-check-every-30-sec': {
+        'task': 'freppledb.mqtt.mqtt_tasks.health_check',  # Полный путь к задаче
+        'schedule': 30.0,  # Каждые 30 секунд (0.5 минут)
+        'options': {'queue': 'monitoring'},  # Опционально: отправлять в очередь monitoring
+    },
+    # Более сложный пример: проверка каждый день в 9 утра
+    #'daily-morning-check': {
+    #    'task': 'your_project.tasks.health_check',
+    #    'schedule': crontab(hour=9, minute=0),
+    #    'args': (),  # Можно передать аргументы, если функция их принимает
+    #},
+}
+
 app.autodiscover_tasks()
-
-
 __all__ = ("app", "Celery")

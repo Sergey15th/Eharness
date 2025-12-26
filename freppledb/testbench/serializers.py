@@ -13,6 +13,11 @@ from freppledb.common.api.serializers import (
     getAttributeAPIReadOnlyFields,
 )
 from freppledb.common.api.filters import FilterSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+from freppledb.mqtt import mqtt_tasks as testbench_tasks
 
 import logging
 
@@ -41,6 +46,7 @@ class BenchConnectorsListSerializer(BulkSerializerMixin, ModelSerializer):
             "id",
             "connector_name",
             "connector_designation",
+            "light_led_mqtt_id",
             "connector",
             "connector_pins_no",
             "source",
@@ -107,3 +113,37 @@ class BenchChannelsListdetailAPI(frePPleRetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return models.BenchChannels.objects.using(self.request.database).all()
     serializer_class = BenchChannelsListSerializer
+
+class BenchConnectorsLEDControlAPI(APIView):
+    """Simple endpoint to trigger LED control for a bench connector.
+    POST /api/testbench/benchconnectors/<id>/led/  with JSON {"action":"on"}
+    """
+    def post(self, request, pk=None, format=None):
+        # Determine led id mapping. By default try to read connector_designation field.
+        try:
+            conn = models.BenchConnectors.objects.using(request.database).get(id=pk)
+        except Exception:
+            return Response({"detail": "Connector not found"}, status=status.HTTP_404_NOT_FOUND)
+        # Resolve LED id: prefer explicit MQTT id field, then designation, then DB id
+        led_id = getattr(conn, "light_led_mqtt_id", None)
+        action = request.data.get("action", "on")
+        logger.info('enqueue Celery task LED_ON: led_id=%s, action=%s', led_id, action)
+        # enqueue Celery task
+        try:
+            testbench_tasks.publish_mqtt_message.delay("bench-light-d48afca52a04/light/light_bar_section_" + led_id + "/command", '{"state": "TOGGLE"}')
+            responce = {"status": "scheduled", "led_id": led_id}
+            logger.info(responce)
+            return Response(responce)
+        except Exception as e:
+            logger.info("detail"+ str(e))
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def get_queryset(self):
+        # Provide a queryset for permission checks (DjangoModelPermissions requires this)
+        return models.BenchConnectors.objects.using(self.request.database).all()
+
+    # Provide a safe class-level queryset so permission classes like
+    # DjangoModelPermissions can be applied before request-specific
+    # attributes (like request.database) exist. Use .none() to avoid
+    # hitting the DB at import time.
+    queryset = models.BenchConnectors.objects.none()

@@ -106,13 +106,19 @@ DATABASES = {
 # The value None disables this feature.
 GOOGLE_ANALYTICS = None
 
+# Led configuration (optional). Configure via environment variables.
+MQTT_BROKER_URL = os.environ.get("FREPPLE_MQTT_BROKER_URL", os.environ.get("MQTT_BROKER_URL", "127.0.0.1"))
+MQTT_BROKER_PORT = os.environ.get("FREPPLE_MQTT_BROKER_PORT", os.environ.get("MQTT_BROKER_PORT", 1883))
+MQTT_BROKER_USERNAME = os.environ.get("FREPPLE_MQTT_BROKER_USERNAME", os.environ.get("MQTT_BROKER_USERNAME", "mqtt"))
+MQTT_BROKER_PASSWORD = os.environ.get("FREPPLE_MQTT_BROKER_PASSWORD", os.environ.get("MQTT_BROKER_PASSWORD", "T9u-Zzv-Awb-e6z"))
+
 # Celery configuration (optional). Configure via environment variables.
 # Examples:
 #   set FREPPLE_CELERY_BROKER_URL=redis://localhost:6379/0
 #   set FREPPLE_CELERY_RESULT_BACKEND=redis://localhost:6379/1
 # If left empty, no broker is configured and Celery workers will not start.
-CELERY_BROKER_URL = os.environ.get("FREPPLE_CELERY_BROKER_URL", os.environ.get("CELERY_BROKER_URL", os.environ.get("BROKER_URL", "")))
-CELERY_RESULT_BACKEND = os.environ.get("FREPPLE_CELERY_RESULT_BACKEND", os.environ.get("CELERY_RESULT_BACKEND", os.environ.get("RESULT_BACKEND", "")))
+CELERY_BROKER_URL = os.environ.get("FREPPLE_CELERY_BROKER_URL", os.environ.get("CELERY_BROKER_URL", os.environ.get("BROKER_URL", "amqp://celery:yfB-h84-4tF-6uH@localhost:5672/celery")))
+CELERY_RESULT_BACKEND = os.environ.get("FREPPLE_CELERY_RESULT_BACKEND", os.environ.get("CELERY_RESULT_BACKEND", os.environ.get("RESULT_BACKEND", "rpc://"))) #"rpc://celery:yfB-h84-4tF-6uH@localhost:5672/celery"
 
 # Recommended defaults for common Celery options (can be overridden in env)
 CELERY_TASK_ALWAYS_EAGER = os.environ.get("FREPPLE_CELERY_TASK_ALWAYS_EAGER", "false").lower() == "true"
@@ -136,6 +142,7 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "freppledb.boot",
     # Add any project specific apps here
+    "freppledb.mqtt",
     "freppledb.technology",
     "freppledb.testbench",
     "freppledb.codescan",

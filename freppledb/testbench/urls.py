@@ -19,5 +19,6 @@ if mode == "WSGI":
 
         # REST API framework
         re_path(r"^api/testbench/benchconnectors/$", serializers.BenchConnectorsListAPI.as_view()),
+        re_path(r"^api/testbench/benchconnectors/(?P<pk>[^/]+)/led/$", serializers.BenchConnectorsLEDControlAPI.as_view()),
         re_path(r"^api/testbench/benchchannels/$", serializers.BenchChannelsListAPI.as_view()),
    ]
