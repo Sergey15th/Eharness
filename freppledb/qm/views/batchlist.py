@@ -73,7 +73,7 @@ class BatchList(GridReport):
         ),
         GridFieldText(
             "batch no",
-            title=_("batch no"),
+            title=_("Партия"),
             field_name="manufacturing_order__batch",
         ),
         GridFieldHierarchicalText(

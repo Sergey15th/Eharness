@@ -10,7 +10,7 @@ from freppledb.celery import app
 from celery.utils.log import get_task_logger
 from celery.signals import worker_init, worker_shutdown
 from freppledb.mqtt.mqtt_client import MQTTPublisherSingleton
-import winsound  
+import winsound
 
 logger = get_task_logger(__name__)
 celery_logger = logging.getLogger('celery')

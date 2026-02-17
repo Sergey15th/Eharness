@@ -39,6 +39,7 @@ from django.contrib import messages
 import django.contrib.admindocs
 from django.utils.translation import gettext_lazy as _
 
+VERSION = "9.9.0"
 
 # FREPPLE_APP directory
 if "FREPPLE_APP" in os.environ:

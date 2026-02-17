@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Premium Product {{ product.id }}{% endblock %}
+
+{% block content %}
+<div class="product-info" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+    <h1>?? {{ product.name }} ??</h1>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+            <p><strong>Description:</strong><br>{{ product.description }}</p>
+            <p><strong>Category:</strong> {{ product.category }}</p>
+        </div>
+        <div>
+            <p><strong>Price:</strong> ${{ "%.2f"|format(product.price) }}</p>
+            <p><strong>Production Date:</strong> {{ product.production_date }}</p>
+            <p><strong>Batch Number:</strong> {{ product.batch_number }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

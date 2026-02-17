@@ -1,0 +1,15 @@
+[Unit]
+Description = PRODUCTVIEW SERVICE
+After = network.target postgresql.service
+
+[Service]
+EnvironmentFile = /etc/environment
+ExecStart = /bin/bash -c "source /home/sega64/productview/venv/bin/activate && python run.py --port 80"
+ExecReload = /bin/bash -c "source /home/sega64/productview/venv/bin/activate && python run.py --port 80"
+WorkingDirectory = /home/sega64/productview/
+KillMode = process
+Restart = always
+RestartSec = 10
+
+[Install]
+WantedBy = multi-user.target

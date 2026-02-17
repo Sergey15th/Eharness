@@ -30,3 +30,11 @@ menu.addItem(
     index=32,
     model=BenchChannels,
 )
+menu.addItem(
+    "testbench",
+    "ARM",
+    url="/data/testbench/landing/",
+    report=freppledb.testbench.views.RM_mainscreen.RM_Dashboard,
+    index=33,
+    #model=BenchChannels,
+)

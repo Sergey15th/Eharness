@@ -1,5 +1,7 @@
 """Celery application for freppledb.
-
+Start worker:
+celery -A freppledb worker -E --loglevel=debug -P eventlet -c 5 --hostname=worker1@%h
+ 
 This follows the Django recommended setup. It reads broker/backend
 configuration from Django settings (BROKER_URL/BROKER or CELERY_ prefix)
 and exposes the app as `app` and `celery_app`.

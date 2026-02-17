@@ -1,0 +1,461 @@
+esphome:
+  name: bench-light-d48afca52a04
+  friendly_name: Bench_light
+
+esp32:
+  board: esp32doit-devkit-v1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "EQaxSgnjStqvp1p2ZHq6dORRHgOAud/u4ewc0QfyZj0="
+
+ota:
+  platform: esphome
+  password: "23ee2de570ff2198fd402ce449d244fa"
+
+mqtt:
+  broker: 192.168.0.120
+  username: mqtt
+  password: T9u-Zzv-Awb-e6z
+
+wifi:
+  ssid: "RT-WiFi-5003"
+  password: "9069483326"
+  #fast_connect: true
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "bench-light-d48afca52a04"
+    password: "6fQk52NQZTLF"
+
+mdns:
+  disabled: false
+
+captive_portal:
+
+status_led:
+  pin: GPIO02
+e131:
+  method: multicast # default: register E1.31 to Multicast group
+wled:
+light:
+  - platform: neopixelbus
+    type: GRB
+    variant: WS2812X
+    pin: GPIO19
+    num_leds: 51
+    name: "light bar"
+    id: light_bar1
+    #internal: true
+    effects:
+      - wled:
+      - addressable_rainbow:
+      - addressable_rainbow:
+          name: Rainbow Effect With Custom Values
+          speed: 10
+          width: 50
+      - addressable_color_wipe:
+      - addressable_color_wipe:
+          name: Color Wipe Effect With Custom Values
+          colors:
+            - red: 100%
+              green: 100%
+              blue: 100%
+              num_leds: 5
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 1
+          add_led_interval: 100ms
+          reverse: false
+      - addressable_scan:
+      - addressable_scan:
+          name: Scan Effect With Custom Values
+          move_interval: 100ms
+          scan_width: 1
+      - addressable_twinkle:
+      - addressable_twinkle:
+          name: Twinkle Effect With Custom Values
+          twinkle_probability: 5%
+          progress_interval: 4ms
+      - addressable_random_twinkle:
+      - addressable_random_twinkle:
+          name: Random Twinkle Effect With Custom Values
+          twinkle_probability: 5%
+          progress_interval: 32ms
+      - addressable_fireworks:
+      - addressable_fireworks:
+          name: Fireworks Effect With Custom Values
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: true
+          fade_out_rate: 120
+      - addressable_flicker:
+      - addressable_flicker:
+          name: Flicker Effect With Custom Values
+          update_interval: 16ms
+          intensity: 5%
+  - platform: partition
+    name: "light_bar_status_led"
+    segments:
+      - id: light_bar1
+        from: 0
+        to: 0
+  - platform: partition
+    name: "light_bar_section_1"
+    segments:
+      - id: light_bar1
+        from: 1
+        to: 1
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_2"
+    segments:
+      - id: light_bar1
+        from: 2
+        to: 2
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_3"
+    segments:
+      - id: light_bar1
+        from: 3
+        to: 3
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_4"
+    segments:
+      - id: light_bar1
+        from: 4
+        to: 4
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_5"
+    segments:
+      - id: light_bar1
+        from: 5
+        to: 5
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_6"
+    segments:
+      - id: light_bar1
+        from: 6
+        to: 6
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_7"
+    segments:
+      - id: light_bar1
+        from: 7
+        to: 7
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_8"
+    segments:
+      - id: light_bar1
+        from: 8
+        to: 8
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_9"
+    segments:
+      - id: light_bar1
+        from: 9
+        to: 9
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_10"
+    segments:
+      - id: light_bar1
+        from: 10
+        to: 10
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_11"
+    segments:
+      - id: light_bar1
+        from: 11
+        to: 11
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_12"
+    segments:
+      - id: light_bar1
+        from: 12
+        to: 12
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_13"
+    segments:
+      - id: light_bar1
+        from: 13
+        to: 13
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_14"
+    segments:
+      - id: light_bar1
+        from: 14
+        to: 14
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_15"
+    segments:
+      - id: light_bar1
+        from: 15
+        to: 15
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_16"
+    segments:
+      - id: light_bar1
+        from: 16
+        to: 16
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_17"
+    segments:
+      - id: light_bar1
+        from: 17
+        to: 17
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_18"
+    segments:
+      - id: light_bar1
+        from: 18
+        to: 18
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_19"
+    segments:
+      - id: light_bar1
+        from: 19
+        to: 19
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_20"
+    segments:
+      - id: light_bar1
+        from: 20
+        to: 20
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_21"
+    segments:
+      - id: light_bar1
+        from: 21
+        to: 21
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_22"
+    segments:
+      - id: light_bar1
+        from: 22
+        to: 22
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_23"
+    segments:
+      - id: light_bar1
+        from: 23
+        to: 23
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_24"
+    segments:
+      - id: light_bar1
+        from: 24
+        to: 24
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_25"
+    segments:
+      - id: light_bar1
+        from: 25
+        to: 25
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_26"
+    segments:
+      - id: light_bar1
+        from: 26
+        to: 26
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_27"
+    segments:
+      - id: light_bar1
+        from: 27
+        to: 27
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_28"
+    segments:
+      - id: light_bar1
+        from: 28
+        to: 28
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_29"
+    segments:
+      - id: light_bar1
+        from: 29
+        to: 29
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_30"
+    segments:
+      - id: light_bar1
+        from: 30
+        to: 30
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_31"
+    segments:
+      - id: light_bar1
+        from: 31
+        to: 31
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_32"
+    segments:
+      - id: light_bar1
+        from: 32
+        to: 32
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_33"
+    segments:
+      - id: light_bar1
+        from: 33
+        to: 33
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_34"
+    segments:
+      - id: light_bar1
+        from: 34
+        to: 34
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_35"
+    segments:
+      - id: light_bar1
+        from: 35
+        to: 35
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_36"
+    segments:
+      - id: light_bar1
+        from: 36
+        to: 36
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_37"
+    segments:
+      - id: light_bar1
+        from: 37
+        to: 37
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_38"
+    segments:
+      - id: light_bar1
+        from: 38
+        to: 38
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_39"
+    segments:
+      - id: light_bar1
+        from: 39
+        to: 39
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_40"
+    segments:
+      - id: light_bar1
+        from: 40
+        to: 40
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_41"
+    segments:
+      - id: light_bar1
+        from: 41
+        to: 41
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_42"
+    segments:
+      - id: light_bar1
+        from: 42
+        to: 42
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_43"
+    segments:
+      - id: light_bar1
+        from: 43
+        to: 43
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_44"
+    segments:
+      - id: light_bar1
+        from: 44
+        to: 44
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_45"
+    segments:
+      - id: light_bar1
+        from: 45
+        to: 45
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_46"
+    segments:
+      - id: light_bar1
+        from: 46
+        to: 46
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_47"
+    segments:
+      - id: light_bar1
+        from: 47
+        to: 47
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_48"
+    segments:
+      - id: light_bar1
+        from: 48
+        to: 48
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_49"
+    segments:
+      - id: light_bar1
+        from: 49
+        to: 49
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: partition
+    name: "light_bar_section_50"
+    segments:
+      - id: light_bar1
+        from: 50
+        to: 50
+    restore_mode: RESTORE_DEFAULT_OFF
+web_server:
+  port: 80
+    

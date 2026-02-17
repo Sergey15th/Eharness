@@ -1,5 +1,10 @@
 from rest_framework.serializers import SerializerMethodField, PrimaryKeyRelatedField
 from rest_framework_bulk.drf3.serializers import BulkListSerializer, BulkSerializerMixin
+import psutil
+from django.http import JsonResponse
+from django.views import View
+import json
+import time
 
 from freppledb.common.api.views import (
     frePPleListCreateAPIView,
@@ -129,11 +134,22 @@ class BenchConnectorsLEDControlAPI(APIView):
         action = request.data.get("action", "on")
         logger.info('enqueue Celery task LED_ON: led_id=%s, action=%s', led_id, action)
         # enqueue Celery task
+
+        #TODO: Адрес темы MQTT должен быть настраиваемым, а не жёстко прописанным
+        #TODO: Необходимо брать адрес из модели BenchConnectors.light_led_mqtt_id
+
         try:
             testbench_tasks.publish_mqtt_message.delay("bench-light-d48afca52a04/light/light_bar_section_" + led_id + "/command", '{"state": "TOGGLE"}')
-            responce = {"status": "scheduled", "led_id": led_id}
-            logger.info(responce)
-            return Response(responce)
+
+
+            #TODO: Сделать ожидание результата выполнения задачи и вернуть реальный статус
+            #TODO: Читать из MQTT состояние светодиода, а не возвращать заглушку
+            
+            response = {"status": "scheduled", "led_id": led_id}
+            logger.info(response)
+            time.sleep(3)
+
+            return Response(response)
         except Exception as e:
             logger.info("detail"+ str(e))
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -147,3 +163,39 @@ class BenchConnectorsLEDControlAPI(APIView):
     # attributes (like request.database) exist. Use .none() to avoid
     # hitting the DB at import time.
     queryset = models.BenchConnectors.objects.none()
+
+class SystemMetricsAPI(View):
+    def get(self, request):
+        metrics = {
+            'cpu_percent': psutil.cpu_percent(interval=1),
+            'memory_percent': psutil.virtual_memory().percent,
+            'disk_percent': psutil.disk_usage('/').percent,
+            'temperature': self.get_cpu_temperature(),
+            'uptime': self.get_uptime(),
+            'network_io': self.get_network_io(),
+            'timestamp': timezone.now().isoformat(),
+        }
+        return JsonResponse(metrics)
+    
+    def get_cpu_temperature(self):
+        try:
+            import psutil
+            temps = psutil.sensors_temperatures()
+            if 'coretemp' in temps:
+                return temps['coretemp'][0].current
+        except:
+            pass
+        return None
+    
+    def get_uptime(self):
+        import datetime
+        uptime_seconds = psutil.boot_time()
+        uptime = datetime.datetime.now() - datetime.datetime.fromtimestamp(uptime_seconds)
+        return str(uptime)
+    
+    def get_network_io(self):
+        io = psutil.net_io_counters()
+        return {
+            'bytes_sent': io.bytes_sent,
+            'bytes_recv': io.bytes_recv,
+        }
