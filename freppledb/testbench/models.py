@@ -26,7 +26,7 @@ class BenchConnectors(AuditModel):
     # Обозначение разъёма
     connector_designation = models.CharField(max_length=10, null=False, blank=False, unique=True)
     # Разъём
-    connector = models.ForeignKey(ItemT, verbose_name=_("Разъём стенда"), on_delete=models.PROTECT, db_index=False, related_name='item_testbench_connectors', blank=False, null=False, )
+    connector = models.ForeignKey('technology.ItemT', verbose_name=_("Разъём стенда"), on_delete=models.PROTECT, db_index=False, related_name='item_testbench_connectors', blank=False, null=False, )
     # Количество контактов у разъёма
     connector_pins_no = models.IntegerField(blank=False, null=False)
     # MQTT адрес лампочки разъёма

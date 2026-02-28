@@ -121,13 +121,14 @@ class SolderingScheme_admin(MultiDBModelAdmin):
 class MobileHanger_admin(MultiDBModelAdmin):
     model = MobileHanger
     save_on_top = True
-    save_as = True
+    #save_as = True
     search_fields = ("number",)
     raw_id_fields = ("current_item", )
     fieldsets = (
-        (None, {"fields": ("id", "number", "current_item", )}),
+        (None, {"fields": ( "number", "current_item", )}),
+
     )
-    tabs = [
+    tabs = [# При detail view справа сверху табсы
         {
             "name": "edit",
             "label": _("edit"),

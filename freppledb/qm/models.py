@@ -2,7 +2,7 @@ from django.db import models
 from freppledb.input.models.operationplan import ManufacturingOrder
 from freppledb.codescan.models import QR
 from freppledb.common.models import AuditModel
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _     
 import re
 from django.core.exceptions import ValidationError
 #from freppledb.technology.models import ItemT
@@ -11,30 +11,6 @@ class ControlType(models.TextChoices):
    CONTINUITY = _('прозвонка')
    VISUAL = _('визуальный контроль')
    CLIMATE = _('климатические испытания')
-
-class Label(AuditModel):
-  def validate_svg(file):
-    SVG_R = r'(?:<\?xml\b[^>]*>[^<]*)?(?:<!--.*?-->[^<]*)*(?:<svg|<!DOCTYPE svg)\b'
-    SVG_RE = re.compile(SVG_R, re.DOTALL)
-    # an example SVG file:
-    try:
-       file_contents = file.read().decode('utf-8')  # Use utf-8
-       file.seek(0)  # Reset file pointer after reading        
-       is_svg = SVG_RE.match(file_contents) is not None
-       if not is_svg:
-            raise ValidationError("File is not a valid SVG")
-    except (UnicodeDecodeError, AttributeError) as e:
-       raise ValidationError("Error reading file") from e
-  name = models.CharField(_("name"), max_length=300)
-  template = models.FileField(upload_to='svg/', validators=[validate_svg])
-  def __str__(self):
-      # Fixed: was using self.name twice, changed to show barcode if available
-      return f"#{self.name} - {self.template}"
-  class Meta(AuditModel.Meta):
-    db_table = 'labels'                 # Name of the database table
-    verbose_name = _('Шаблон этикетки')          # A translatable name for the entity
-    verbose_name_plural = _('Шаблоны этикеток')  # Plural name
-    #ordering = ['']
 
 class Batch(AuditModel): # Партия номенклатуры
   # Database fields
@@ -52,7 +28,7 @@ class Batch(AuditModel): # Партия номенклатуры
   def __str__(self):
      return 'партия-' + str(ManufacturingOrder.batch) + '(' + str(ManufacturingOrder.name) + ')'
   class Meta(AuditModel.Meta):
-    db_table = 'batch_list'                 # Name of the database table
+    db_table = 'qm_batch_list'                 # Name of the database table
     verbose_name = _('Серия номенклатуры')          # A translatable name for the entity
     verbose_name_plural = _('Серии номенклатуры')  # Plural name
     ordering = ['id', 'serie_no_start']
@@ -65,7 +41,7 @@ class SerialUsed(AuditModel):
     class Meta:
         verbose_name = "Last used serial"
         verbose_name_plural = "Last used serialss"
-        db_table = "last_serials"
+        db_table = "qm_last_serials"
 
 # класс product_passport, в котором создаются экземпляры продуктов с серийными номерами по партиям
 class ProductPassport(AuditModel):
@@ -120,7 +96,7 @@ class ProductPassport(AuditModel):
     # Fixed: was using self.name twice, changed to show barcode if available
     return f"Паспорт изделия {self.manufacturing_order.item} от {self.date} - {self.product_qrcode.qr}"
   class Meta(AuditModel.Meta):
-    db_table = 'pasports'                 # Name of the database table
+    db_table = 'qm_pasports'                 # Name of the database table
     verbose_name = _('Паспорт изделия')          # A translatable name for the entity
     verbose_name_plural = _('Паспорта изделий')  # Plural name
     unique_together = [['manufacturing_order', 'serial_number']]

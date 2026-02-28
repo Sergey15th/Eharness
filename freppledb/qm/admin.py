@@ -4,37 +4,7 @@ from django.contrib import admin
 from freppledb.common.adminforms import MultiDBModelAdmin
 from freppledb.admin import data_site
 from freppledb.boot import getAttributes
-from freppledb.qm.models import Label, Batch, ProductPassport, QualityControl, QualityControlTypes
-
-@admin.register(Label, site=data_site)
-class Label_admin(MultiDBModelAdmin):
-    model = Label
-    save_on_top = True
-    search_fields = ("name", )
-    fieldsets = (
-        (None, {"fields": ("name", "template", )}),
-        (
-            _("advanced"),
-            {
-                "fields": []
-                + [a[0] for a in getAttributes(Label) if a[3]],
-                "classes": ("collapse",),
-            },
-        ),
-    )
-    tabs = [
-        {
-            "name": "edit",
-            "label": _("edit"),
-            "view": "admin:qm_label_change",
-            "permissions": "qm.change_label",
-        },
-        {
-            "name": "messages",
-            "label": _("messages"),
-            "view": "admin:qm_label_comment",
-        },
-    ]
+from freppledb.qm.models import Batch, ProductPassport, QualityControl, QualityControlTypes
 
 @admin.register(Batch, site=data_site)
 class Batch_admin(MultiDBModelAdmin):

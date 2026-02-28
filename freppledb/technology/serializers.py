@@ -194,7 +194,7 @@ class ItemTFilter(FilterSet):
                 "uom": ["exact", "in", "contains"],
                 "periodofcover": ["exact", "in", "gt", "gte", "lt", "lte"],
                 "type": ["exact", "in"],
-                "passport_label_template": ["exact", "in"], 
+                #"passport_label_template": ["exact", "in"], 
                 "source": ["exact", "in"],
                 "lastmodified": ["exact", "in", "gt", "gte", "lt", "lte"],
             },
@@ -220,7 +220,7 @@ class ItemTSerializer(BulkSerializerMixin, ModelSerializer):
             "periodofcover",
             "uom",
             "type",
-            "passport_label_template",
+            #"passport_label_template",
             "source",
             "lastmodified",
         ) + getAttributeAPIFields(models.ItemT)

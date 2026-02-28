@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     "freppledb.boot",
     # Add any project specific apps here
     "freppledb.mqtt",
+    "freppledb.labels",
     "freppledb.technology",
     "freppledb.testbench",
     "freppledb.codescan",

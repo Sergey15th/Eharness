@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Special Item {{ item.id }}{% endblock %}
+
+{% block content %}
+<div class="product-info" style="border: 2px solid rgb(92, 96, 100); background: #ffffff;">
+    <h1 style="color: #d0043c;">Комплектующие: {{ item.name }}</h1>
+    <div class="product-info" style="border: 2px solid rgb(92, 96, 100); background: #ffffff;">
+        <img src="{{ url_for('static', filename='images/'+item.image) }}" 
+         alt="Logo" 
+         width="200" >
+    </div>
+    <p><strong>Описание:</strong></p>
+    <p> {{ item.description }} </p>
+    <div style="background: white; border-radius: 5px;">
+        <p><strong>Категория:</strong> {{ item.category }}</p>
+        <p><strong>Стоимость:</strong> {{ "%.2f"|format(item.price) }} ₽</p>
+        <p><strong>Остатки на складе:</strong> {{ item.production_date }} | Batch: {{ item.batch_number }}</p>
+    </div>
+</div>
+{% endblock %}

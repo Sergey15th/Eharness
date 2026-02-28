@@ -6,7 +6,6 @@ from django.template.loader import get_template
 from freppledb.qm.models import ProductPassport
 import os
 from freppledb.settings import MEDIA_ROOT, MEDIA_URL
-from freppledb.qm.services import print_svg_direct_windows, generate_svg
 
 class ProductLabelPrintView(View):
     """Предварительный просмотр шильдика"""

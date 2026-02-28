@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('technology', '0080_itemt_opposite_item'),
+        
     ]
 
     operations = [
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('connector_name', models.CharField(blank=True, max_length=50, null=True)),
                 ('connector_designation', models.CharField(max_length=10)),
                 ('connector_pins_no', models.IntegerField()),
-                ('connector', models.ForeignKey(db_index=False, on_delete=django.db.models.deletion.PROTECT, related_name='item_testbench_connectors', to='technology.itemt', verbose_name='Разъём стенда')),
+                ('connector', models.ForeignKey(db_index=False, on_delete=django.db.models.deletion.PROTECT, related_name='item_testbench_connectors', to='technology.ItemT', verbose_name='Разъём стенда')),
             ],
             options={
                 'verbose_name': 'Разъём стенда',

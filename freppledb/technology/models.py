@@ -3,7 +3,6 @@ from django.conf import settings
 from django.db import models, DEFAULT_DB_ALIAS, connections, transaction
 from psycopg2.extras import execute_batch
 import logging
-#from freppledb.qm.models import Label
 
 # Use the function "_" for all strings that need translation.
 from django.utils.translation import gettext_lazy as _
@@ -113,7 +112,7 @@ class ItemT(Item):
   qr = models.ForeignKey(QR, verbose_name=_("QR код"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='qr_owners', )
   barcode_number = models.CharField(_('Номер штрих-кода'), null=True, blank=True)
   barcode = models.ForeignKey(barcode, verbose_name=_("Штрих код"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='barcode_owners', )
-  passport_label_template = models.ForeignKey("qm.Label", verbose_name=_("Шаблон этикетки паспорта"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='label_passports', )
+  passport_label_template = models.ForeignKey("labels.LabelTemplate", verbose_name=_("Шаблон этикетки паспорта"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='label_passports', )
   opposite_item = models.ForeignKey("self", verbose_name=_("Ответная часть"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='opposite_items', )
 
 class ConnectionList(AuditModel):
@@ -169,7 +168,7 @@ class SolderingScheme(AuditModel):
     ordering = ['item']
 
 class MobileHanger(AuditModel):
-  #id = models.AutoField(_("identifier"), primary_key=True)
+  id = models.AutoField(_("identifier"), primary_key=True)
   number = models.CharField(_("Номер"), blank=False, null=False)
   current_item = models.ForeignKey(ItemT, on_delete=models.PROTECT, related_name='tied_hangers', null=True, blank=True)
   def __str__(self):

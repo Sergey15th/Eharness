@@ -4,15 +4,27 @@
     box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "Myriad Pro";
+  font-style: normal;
+  font-weight: 400;
+
+  /* Браузер сначала попробует найти шрифт локально */
+  src: local("MYRIADPRO-REGULAR"),
+       /* Если не получилось, загрузит woff2 */
+       url("/fonts/MYRIADPRO-REGULAR") format("otf"),
+
+}
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'MYRIADPRO-REGULAR', 'Arial', sans-serif;
     line-height: 1.6;
     color: #333;
-    background-color: #f4f4f4;
+    background-color: #dddddd;
 }
 
 header {
-    background: #2c3e50;
+    background: #dddddd;
     color: white;
     padding: 1rem 0;
 }

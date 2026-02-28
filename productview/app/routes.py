@@ -1,32 +1,35 @@
 from flask import render_template, jsonify, abort
-from .models import Product
+from .models import Item, CodesTypes
+
+import logging
+logger = logging.getLogger(__name__)
 
 def register_routes(app):
-    
-    @app.route('/')
+
+    @app.route('/index')
     def index():
         return render_template('index.html')
     
-    @app.route('/product/<int:product_id>')
-    def show_product(product_id):
-        product = Product.get_by_id(product_id)
+    @app.route('/<item_id>')
+    def show_product(item_id):
+        item = Item.get_by_id(item_id)
         
-        if not product:
-            abort(404, description="Product not found")
+        if not item:
+            abort(404, description="Item not found")
         
-        template_type = product.get('template_type', 'default')
-        template_name = f"product_{template_type}.html"
+        template_type = item.get('template_type', 'default')
+        template_name = f"items_{template_type}.html"
         
-        return render_template(template_name, product=product)
+        return render_template(template_name, item=item)
     
-    @app.route('/api/product/<int:product_id>')
-    def api_product(product_id):
-        product = Product.get_by_id(product_id)
+    @app.route('/api/<item_id>')
+    def api_item(item_id):
+        item = Item.get_by_id(item_id)
         
-        if not product:
-            return jsonify({'error': 'Product not found'}), 404
+        if not item:
+            return jsonify({'error': 'Item not found'}), 404
         
-        return jsonify({'product': product})
+        return jsonify({'Item': item})
     
     @app.errorhandler(404)
     def not_found(error):

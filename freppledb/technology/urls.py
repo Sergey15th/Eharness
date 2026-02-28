@@ -46,8 +46,9 @@ if mode == "WSGI":
 
         # ОТОБРАЖЕНИЕ списка мобильных вешал
         re_path(r"^data/technology/mobilehanger/$", views.MobileHangerList.as_view(), name="technology_mobilehanger_changelist", ),
+        
         # ОТОБРАЖЕНИЕ мобильного вешала
-        re_path(r"^data/technology/mobilehanger/(?P<pk>(.+))/$", views.MobileHangerView.as_view(), name="technology_mobilehanger_view", ),
+        #re_path(r"^data/technology/mobilehanger/(?P<pk>(.+))/$", views.MobileHangerView.as_view(), name="technology_mobilehanger_view", ),
 
         # REST API framework
         re_path(r"^api/technology/connectionlist/$", serializers.ConnectionListAPI.as_view()),

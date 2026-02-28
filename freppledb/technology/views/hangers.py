@@ -60,16 +60,17 @@ class MobileHangerList(GridReport):
             "Привязанная номенклатура",
             title=_("Привязанная номенклатура"),
             field_name="current_item",
-            key=False,
-            formatter="detail",
-            extra='"role":"technology/itemt"',
             model=ItemT,
         ),
         GridFieldText("source", title=_("source")),
         GridFieldLastModified("lastmodified"),
     )
 
+
+''' FOR DETAIL VIEW
 class MobileHangerView(DetailView):
     model = MobileHanger
     template_name = 'mobilehanger_view.html'
     context_object_name = 'mobilehanger'
+    pk_url_kwarg = 'pk'
+'''

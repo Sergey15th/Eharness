@@ -60,46 +60,6 @@ class BatchListdetailAPI(frePPleRetrieveUpdateDestroyAPIView):
         return models.Batch.objects.using(self.request.database).all()
     serializer_class = BatchListSerializer
 
-class LabelListFilter(FilterSet):
-    class Meta:
-        model = models.Label
-        fields = dict(
-            {   "id": ["exact", "in"],
-                "name": ["exact", "in"],
-                #"template": ["in"],
-                "lastmodified": ["exact", "in", "gt", "gte", "lt", "lte"],
-            },
-            **getAttributeAPIFilterDefinition(models.Label),
-        )
-        filter_fields = fields.keys()
-
-class LabelListSerializer(BulkSerializerMixin, ModelSerializer):
-    class Meta:
-        model = models.Label
-        fields = (
-            "id",
-            "name",
-            "template",
-        ) + getAttributeAPIFields(models.Label)
-        read_only_fields = (
-            "source",
-            "lastmodified",
-        ) + getAttributeAPIReadOnlyFields(models.Label)
-        list_serializer_class = BulkListSerializer
-        update_lookup_field = "name"
-        partial = True
-
-class LabelListAPI(frePPleListCreateAPIView):
-    def get_queryset(self):
-        return models.Label.objects.using(self.request.database).all()
-    serializer_class = LabelListSerializer
-    filter_class = LabelListFilter
-
-class LabeldetailAPI(frePPleRetrieveUpdateDestroyAPIView):
-    def get_queryset(self):
-        return models.Label.objects.using(self.request.database).all()
-    serializer_class = LabelListSerializer
-
 class ProductPassportListFilter(FilterSet):
     class Meta:
         model = models.ProductPassport

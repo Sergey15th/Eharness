@@ -7,9 +7,8 @@ from freppledb.menu import menu
 
 import freppledb.technology.views
 from freppledb.qm.models import (
-   Label, Batch, ProductPassport, QualityControl, QualityControlTypes
+   Batch, ProductPassport, QualityControl, QualityControlTypes
 )
-from freppledb.qm.views.labellist import LabelList
 from freppledb.qm.views.batchlist import BatchList
 from freppledb.qm.views.productpassportlist import ProductPassportList
 from freppledb.qm.views.qualitycontrollist import QualityControlList
@@ -24,14 +23,6 @@ menu.addItem(
     report=freppledb.qm.views.batchlist.BatchList,
     index=11,
     model=Batch,
-)
-menu.addItem(
-    "quality",
-    "labellist",
-    url="/data/qm/label/",
-    report=freppledb.qm.views.labellist.LabelList,
-    index=12,
-    model=Label,
 )
 menu.addItem(
     "quality",

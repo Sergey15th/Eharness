@@ -657,7 +657,7 @@ jQuery.extend($.fn.fmatter, {
   imagenew2: function (cellvalue, options, rowdata) {
     if (typeof cellvalue !== 'string') return '';
     else
-      return '<img src="/uploads/' + cellvalue + '" style="max-width: 400px; max-height: 100px;" </img>';
+      return '<a href="/uploads/' + cellvalue + '" target="_blank" title="Нажмите для увеличения">' + '<img src="/uploads/' + cellvalue + '" style="max-width: 400px; max-height: 100px;" </img>';
   }
 });
 
