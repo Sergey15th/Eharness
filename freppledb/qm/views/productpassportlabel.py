@@ -12,24 +12,22 @@ import tempfile
 import json
 
 import win32print
-import tempfile
 import win32api
 
 import cairosvg
 import tempfile
 
-class ProductLabelPreviewView(View):
+class ProductLabelPreviewView(View): # Предварительный просмотр шильдика паспорта
     """Предварительный просмотр шильдика"""
     def get(self, request):
         product_id = request.GET.get('id')
         product_passport = get_object_or_404(ProductPassport, id=product_id)
         # Если шильдик уже существует, используем его
-        if hasattr(product_passport, 'label_path'):
-            #ToDo: Переделать, сгенерировать вызовом метода модели
-            svg_content = generate_svg(os.path.join(MEDIA_ROOT, product_passport.label_path), product_passport)
-        else:
-           # Иначе генерируем новый
-            pass
+        svg_path = product_passport.label.file.path
+        if hasattr(product_passport, 'label') and svg_path:
+            # Читаем содержимое SVG файла
+            with open(svg_path, 'r', encoding='utf-8') as f:
+                svg_content = f.read()
         html_content = f"""
             <!DOCTYPE html>
                 <html>

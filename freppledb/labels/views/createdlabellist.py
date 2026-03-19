@@ -16,15 +16,15 @@ from freppledb.common.report import (
 
 )
 from freppledb.labels.models import (
-    LabelTemplate,
+    CreatedLabel
 )
 class CreatedLabelList(GridReport):
     title = _("Созданные этикетки")
-    basequeryset = LabelTemplate.objects.all()
-    model = LabelTemplate
+    basequeryset = CreatedLabel.objects.all()
+    model = CreatedLabel
     frozenColumns = 0
-    editable = True
-    help_url = "help/label.html"
+    editable = False
+    help_url = "help/createdlabel.html"
     message_when_empty = Template(
         """
         <h3>Создайте этикетки</h3>
@@ -40,23 +40,10 @@ class CreatedLabelList(GridReport):
         """
     )
     rows = (
-        GridFieldText(
-            "id",
-            title=_("id"),
-            key=True,
-            formatter="detail",
-            extra='"role":"qm/label"',
-        ),
-        GridFieldText(
-            "name",
-            title=_("name"),
-        ),
-        GridFieldText(
-            "template",
-            title=_("IM"),
-            formatter="imagenew",
-            key=False,
-        ),
+        GridFieldText("id", title=_("id"), key=True, ),
+        GridFieldText("name", title=_("name"), ),
+        GridFieldText("dir", title=_("dir"), ),
+        GridFieldText("file", title=_("file"), ),
         GridFieldText("source", title=_("source"), initially_hidden=True),
         GridFieldLastModified("lastmodified"),
     )

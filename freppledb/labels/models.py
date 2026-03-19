@@ -1,25 +1,36 @@
 from django.db import models
 from freppledb.input.models.operationplan import ManufacturingOrder
-from freppledb.codescan.models import QR
+from freppledb.technology.models import ItemT
 from freppledb.common.models import AuditModel
 from django.utils.translation import gettext_lazy as _
 import re
 import cairosvg
 import svglue
 from django.core.exceptions import ValidationError
-#from freppledb.technology.models import ItemT
+from freppledb.labels.services import save_svg_to_file, escape_text
+from freppledb.settings import MEDIA_ROOT, MEDIA_URL
+import os
 
 class LabelTemplate(AuditModel):
-  def generate_svg(template, instance):
+  def fix_svg_qr_codes(self,svg_content):
+    # Добавляем xmlns:xlink в корневой тег, если его нет
+    if 'xmlns:xlink' not in svg_content:
+        svg_content = svg_content.replace('<svg ', '<svg xmlns:xlink="http://www.w3.org/1999/xlink" ')
+    
+    # Заменяем неправильные префиксы ns0, ns1 и т.д. на xlink
+    pattern = r'ns\d+:href="([^"]+)"'
+    svg_content = re.sub(pattern, r'xlink:href="\1"', svg_content)
+    return svg_content
+  
+  def generate_svg(self, instance, svg_name):
     """Генерирует SVG шильдик на основе шаблона"""
     # Загружаем шаблон
-    template = svglue.load(file=template)
-
+    template = svglue.load(file=self.template)
     # Заменяем текстовые элементы
     for elem_key in template._tspan_subs: # Перебираем все текстовые template-id
         elem_key_clean = re.sub(r'\d+$', '', elem_key)
         try:
-            parts = elem_key_clean.split('.')
+            parts = elem_key_clean.split('.') # Смотрим на структуру ссылки в SVG файле
             current_obj = instance
             for part in parts:
                 if part == 'item': # Если обращение к аттрибуту объекта Item, то подменяем его ItemT для возможности доступа к расширенным данным
@@ -53,7 +64,11 @@ class LabelTemplate(AuditModel):
             template.set_image(elem_key, file=path, mimetype='image/png')
     src = template.__str__()
     # Рендерим финальный SVG
-    return src
+    src=self.fix_svg_qr_codes(src)
+    ## Нужно сохранить файл SVG и вернуть ссылку на него
+    safe_name = re.sub(r'[^\w\-_.]', '_', svg_name)
+    return save_svg_to_file(src, os.path.join(MEDIA_ROOT, 'svg', self.dir, safe_name + '.svg'))
+  
   def validate_svg(file):
     SVG_R = r'(?:<\?xml\b[^>]*>[^<]*)?(?:<!--.*?-->[^<]*)*(?:<svg|<!DOCTYPE svg)\b'
     SVG_RE = re.compile(SVG_R, re.DOTALL)
@@ -77,3 +92,17 @@ class LabelTemplate(AuditModel):
     verbose_name = _('Шаблон этикетки')          # A translatable name for the entity
     verbose_name_plural = _('Шаблоны этикеток')  # Plural name
     #ordering = ['']
+
+class CreatedLabel(AuditModel):
+    template = models.ForeignKey(LabelTemplate, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='created_labels/')
+    name = models.CharField(_("name"), max_length=300)
+    dir = models.CharField(_("directory"), max_length=300, default = '')
+    def __str__(self):
+        # Fixed: was using self.name twice, changed to show barcode if available
+        return f"#{self.name} - {self.file}"
+    class Meta(AuditModel.Meta):
+        db_table = 'lb_createdlabels'                 # Name of the database table
+        verbose_name = _('Созданная этикетка')          # A translatable name for the entity
+        verbose_name_plural = _('Созданные этикетки')  # Plural name
+        #ordering = ['']

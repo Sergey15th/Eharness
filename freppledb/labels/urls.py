@@ -14,7 +14,10 @@ if mode == "WSGI":
     urlpatterns = [
         # Шаблоны этикеток
         re_path(r"^data/labels/labeltemplate/$", views.LabelTemplateList.as_view(), name="labels_labeltemplate_changelist", ),
+        # Созданные этикетки
+        re_path(r"^data/labels/createdlabel/$", views.CreatedLabelList.as_view(), name="labels_createdlabel_changelist", ),
 
         # REST API framework
         re_path(r"^api/labels/labeltemplate/$", serializers.LabelTemplateListAPI.as_view()),
+        re_path(r"^api/labels/createdlabel/$", serializers.CreatedLabelListAPI.as_view()),
    ]

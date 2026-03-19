@@ -29,6 +29,7 @@ def save_svg_to_file(svg_content, filename):
     """Сохраняет SVG в файл"""
     with open(os.path.join(filename), 'w', encoding='utf8') as svgout:
         svgout.write(svg_content)
+    return filename
 
 def svg_to_pdf(svg_content):
     """Конвертирует SVG в PDF для печати"""

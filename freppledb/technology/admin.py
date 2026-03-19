@@ -125,7 +125,7 @@ class MobileHanger_admin(MultiDBModelAdmin):
     search_fields = ("number",)
     raw_id_fields = ("current_item", )
     fieldsets = (
-        (None, {"fields": ( "number", "current_item", )}),
+        (None, {"fields": ( "number", "current_item", "label_template", "qr")}),
 
     )
     tabs = [# При detail view справа сверху табсы

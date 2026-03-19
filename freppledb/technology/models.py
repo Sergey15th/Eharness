@@ -116,7 +116,6 @@ class ItemT(Item):
   opposite_item = models.ForeignKey("self", verbose_name=_("Ответная часть"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='opposite_items', )
 
 class ConnectionList(AuditModel):
-
   # Database fields
   id = models.AutoField(_("identifier"), primary_key=True)
   hanged_no = models.CharField(_('№ на вешале'), null=True, blank=True, max_length=20, help_text= _('Номер крючка на вешале'))
@@ -143,7 +142,7 @@ class ConnectionList(AuditModel):
   allowance = models.DecimalField(_("припуск"), max_digits=5, decimal_places=0, default='0', blank=True, null=True)
   soldering = models.BooleanField(_('пайка проводов'), blank=False, default=False, help_text = _('пайка проводов'))
   class Meta(AuditModel.Meta):
-    db_table = 'connection_list'                 # Name of the database table
+    db_table = 'technology_connection_list'                 # Name of the database table
     verbose_name = _('Таблица соединений')          # A translatable name for the entity
     verbose_name_plural = _('Таблицы соединений')  # Plural name
     ordering = ['SP_pos']
@@ -162,7 +161,7 @@ class SolderingScheme(AuditModel):
       related_name='item_soldering_scheme',
   )
   class Meta(AuditModel.Meta):
-    db_table = 'solderingscheme'                 # Name of the database table
+    db_table = 'technology_solderingscheme'                 # Name of the database table
     verbose_name = _('Схема пайки')          # A translatable name for the entity
     verbose_name_plural = _('Схемы пайки')  # Plural name
     ordering = ['item']
@@ -173,8 +172,12 @@ class MobileHanger(AuditModel):
   current_item = models.ForeignKey(ItemT, on_delete=models.PROTECT, related_name='tied_hangers', null=True, blank=True)
   def __str__(self):
       return f"Вешало №{self.number} - {self.current_item.name}"
+  qr = models.ForeignKey(QR, verbose_name=_("QR код"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='qr_mh_owners', )
+  label_path = models.CharField(max_length=300, null=True, blank=True) #Для ссылки в таблице на этикетку
+  label_template = models.ForeignKey("labels.LabelTemplate", verbose_name=_("Шаблон этикетки мобильного вешала"), on_delete=models.PROTECT, blank=True, null=True, db_index=False, related_name='label_hangers', )
+  label = models.ForeignKey("labels.CreatedLabel", verbose_name=_("Этикетка"), on_delete=models.PROTECT, unique=False, db_index=False, null=True, related_name='label_hangers', default=None)
   class Meta(AuditModel.Meta):
-    db_table = 'hangers'                 # Name of the database table
+    db_table = 'technology_hangers'                 # Name of the database table
     verbose_name = _('Мобильное вешало') # A translatable name for the entity
     verbose_name_plural = _('Мобильные вешала')  # Plural name
     ordering = ['number']
@@ -186,7 +189,7 @@ class TraceScheme(AuditModel):
   image_height = models.IntegerField(blank=True, null=True)
   image_width = models.IntegerField(blank=True, null=True)
   class Meta(AuditModel.Meta):
-    db_table = 'trace_list'                 # Name of the database table
+    db_table = 'technology_trace_list'                 # Name of the database table
     verbose_name = _('Схема трассировки')          # A translatable name for the entity
     verbose_name_plural = _('Схемы трассировки')  # Plural name
     ordering = ['item']

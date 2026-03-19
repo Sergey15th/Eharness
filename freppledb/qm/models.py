@@ -2,6 +2,7 @@ from django.db import models
 from freppledb.input.models.operationplan import ManufacturingOrder
 from freppledb.codescan.models import QR
 from freppledb.common.models import AuditModel
+from freppledb.labels.models import CreatedLabel
 from django.utils.translation import gettext_lazy as _     
 import re
 from django.core.exceptions import ValidationError
@@ -46,7 +47,7 @@ class SerialUsed(AuditModel):
 # класс product_passport, в котором создаются экземпляры продуктов с серийными номерами по партиям
 class ProductPassport(AuditModel):
   id = models.AutoField(_("identifier"), primary_key=True)
-  date = models.DateTimeField(auto_now=True)
+  date = models.DateTimeField(auto_now=False)
   @property
   def date_formatted(self):
       """Возвращает отформатированную дату создания"""
@@ -56,13 +57,11 @@ class ProductPassport(AuditModel):
   serial_number = models.IntegerField(_('s/n'), null=False, blank=True)
   @property
   def serial_number_str(self):
-     return f"{self.serial_number:05d}"
+      return f"{self.serial_number:05d}"
   @property
   def name(self):
       """Возвращает отформатированное наименоване"""
-      return f'{self.manufacturing_order.reference}-{self.manufacturing_order.batch}-{self.serial_number_str}'
-
-  serial_number = models.IntegerField(_('s/n'), null=False, blank=True)
+      return f'{self.id}-{self.manufacturing_order.batch}-{self.serial_number_str}'
 
   manufacturing_order = models.ForeignKey(
       ManufacturingOrder,
@@ -72,15 +71,9 @@ class ProductPassport(AuditModel):
       db_index=False,
       related_name='order_passports',
   )
+  label = models.ForeignKey( CreatedLabel, verbose_name=_("Этикетка"), on_delete=models.PROTECT, unique=False, db_index=False, null=True, related_name='label_passports', default=None)
   label_path = models.CharField(max_length=300, null=True, blank=True)
-  product_qrcode = models.OneToOneField(
-      QR,
-      verbose_name=_("QR код продукта"),
-      on_delete=models.PROTECT,
-      unique=True,
-      db_index=False,
-      related_name='product_passports',
-  )
+  product_qrcode = models.OneToOneField( QR, verbose_name=_("QR код продукта"), on_delete=models.PROTECT, unique=True, db_index=False, related_name='product_passports', )
   status = models.CharField(max_length=50, null=True, blank=True, default='Создан')
   part_name = models.CharField(max_length=200, null=True, blank=True)
   firmware = models.CharField(max_length=200, null=True, blank=True)

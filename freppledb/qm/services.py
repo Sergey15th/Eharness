@@ -2,10 +2,15 @@ from django.dispatch import receiver
 from django.dispatch import Signal
 from freppledb.qm.models import ProductPassport
 from freppledb.technology.models import ItemT
+from freppledb.labels.models import CreatedLabel
 from freppledb.settings import MEDIA_ROOT, MEDIA_URL
 from django.db.models.signals import pre_save, post_save
 from freppledb.qm.models import QualityControl, ControlType, Batch
 from freppledb.codescan.models import *
+from django.core.files import File
+from datetime import datetime
+ 
+import os
 
 import svglue
 import os
@@ -56,7 +61,7 @@ def qm_pre_save_receiver(sender, instance, **kwargs):
             pass
     if sender == ProductPassport: #Обновился паспорт продукта
         pp_item = ItemT.objects.get(item_ptr_id=instance.manufacturing_order.operation.item) # Находим номенклатуру, для которой создан паспорт
-        instance.label_path = pp_item.passport_label_template.template #
+        #instance.label_path = pp_item.passport_label_template.template #
         pass
     if sender == QualityControl: #Создан результат контроля качества
         if instance.control_result == 'СООТВЕТСТВУЕТ':
@@ -83,6 +88,7 @@ def qm_pre_save_receiver(sender, instance, **kwargs):
     if sender == Batch: #Партия номенклатуры создаёт этикетки изделий
         # Проверяем, есть ли уже паспорта для созданной партии:
         if not instance.serials_created:
+            # Если на партию номенклатуры еще не созданы паспорта, то создаём:
             for i in range(int(instance.serie_no_start), int(instance.serie_no_start) + int(instance.manufacturing_order.quantity)):
                 Passport = ProductPassport()
                 Passport.manufacturing_order = instance.manufacturing_order
@@ -98,6 +104,15 @@ def qm_pre_save_receiver(sender, instance, **kwargs):
                 current_qr.save()
                 new_qr.save()
                 Passport.product_qrcode = new_qr
+                Passport.date = datetime.now()
+                pp_item = ItemT.objects.get(item_ptr_id=Passport.manufacturing_order.operation.item) # Находим номенклатуру ItemT, для которой создан паспорт
+                # Создаём этикетку паспорта
+                if not Passport.label: # Этикетки нет, создаём её
+                    Passport.label = CreatedLabel()
+                    Passport.label.template = pp_item.passport_label_template
+                    Passport.label.file = Passport.label.template.generate_svg(Passport, f"passport-{Passport.product_qrcode.qr}")
+                    Passport.label.name = f"passport-{Passport.product_qrcode.qr}"
+                    Passport.label.save()
                 Passport.save()
             instance.serials_created = True
 

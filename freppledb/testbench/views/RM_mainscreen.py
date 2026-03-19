@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.utils import timezone
 from datetime import datetime
+from freppledb.mqtt.mqtt_tasks import mqtt_publisher
 import psutil
 import platform
 
@@ -28,7 +29,8 @@ class RM_Dashboard(TemplateView):
         context = super().get_context_data(**kwargs)
         
         system_info = self.get_system_info()
-        
+        conn_status = 'mqtt_publisher.connected'
+        MQTT_str = {'name': 'MQTT Broker', 'conn status': str(conn_status), 'uptime': '7d 12h'}
         context.update({
             'title_st': 'Испытательный стенд',
             'system_info': system_info,
@@ -41,7 +43,7 @@ class RM_Dashboard(TemplateView):
                 {'name': 'Test Controller', 'status': 'running', 'uptime': '15d 4h'},
                 {'name': 'Data Logger', 'status': 'running', 'uptime': '15d 4h'},
                 {'name': 'Report Generator', 'status': 'idle', 'uptime': '2d 1h'},
-                {'name': 'MQTT Broker', 'status': 'running', 'uptime': '7d 12h'},
+                MQTT_str,
             ],
             
             # Последние события

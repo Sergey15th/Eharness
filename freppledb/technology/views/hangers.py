@@ -7,26 +7,18 @@ from django.template import Template
 from django.utils.translation import gettext_lazy as _
 from django.utils.encoding import force_str
 from django.utils.text import format_lazy
-from django.views.generic import DetailView
-
+from django.views import View
 from freppledb.boot import getAttributeFields
 from freppledb.technology.models import (
     MobileHanger, ItemT
 )
-
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from freppledb.common.report import (
     GridReport,
     GridFieldLastModified,
-    GridFieldDateTime,
     GridFieldText,
     GridFieldHierarchicalText,
-    GridFieldNumber,
-    GridFieldInteger,
-    GridFieldCurrency,
-    GridFieldChoice,
-    GridFieldDuration,
-    GridFieldBool,
-    GridField,
 )
 
 import logging
@@ -62,10 +54,19 @@ class MobileHangerList(GridReport):
             field_name="current_item",
             model=ItemT,
         ),
+        GridFieldText("qr__image", title=_("QR_"), formatter="imagenew2", key=False, ),
+        GridFieldText("labeltemplate", title=_("Шаблон этикетки"), field_name="label_template__name", key=False, formatter="showlink",
+                      extra = ('"formatoptions": {"baseLinkUrl":"/data/technology/hangerlabel/", "showaction ":"255", "target":"_blank"}'), #, "addParam": "?source=grid"
+                      editable=False),
         GridFieldText("source", title=_("source")),
         GridFieldLastModified("lastmodified"),
-    )
 
+    )
+'''
+        GridFieldText("label", title=_("этикетка"), field_name="label__file", key=False, formatter="showlink",
+                      extra = ('"formatoptions": {"baseLinkUrl":"/data/qm/productpassportlabel/", "showaction ":"255", "target":"_blank"}'), #, "addParam": "?source=grid"
+                      editable=False),
+'''
 
 ''' FOR DETAIL VIEW
 class MobileHangerView(DetailView):
@@ -74,3 +75,49 @@ class MobileHangerView(DetailView):
     context_object_name = 'mobilehanger'
     pk_url_kwarg = 'pk'
 '''
+
+class MobileHangerLabelPreviewView(View): # Предварительный просмотр шильдика мобильного вешала
+    """Предварительный просмотр шильдика"""
+    def get(self, request):
+        hanger_id = request.GET.get('id')
+        mobile_hanger = get_object_or_404(MobileHanger, id=hanger_id)
+        # Если шильдик уже существует, используем его
+        svg_path = mobile_hanger.label.file.path
+        if hasattr(mobile_hanger, 'label') and svg_path:
+            # Читаем содержимое SVG файла
+            with open(svg_path, 'r', encoding='utf-8') as f:
+                svg_content = f.read()
+        html_content = f"""
+            <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Просмотр этикетки</title>
+                    <style>
+                        @media print {{
+                            body {{ margin: 0; padding: 0; }}
+                            .no-print {{ display: none; }}
+                        }}
+                        @page {{ size: auto; margin: 0mm; }}
+                        svg {{ width: auto; height: auto; }}
+                    </style>
+                    <script>
+                        window.onload = function() {{
+                            // window.print();
+                            // Закрыть окно после печати (опционально)
+                            //setTimeout(function() {{ window.close();  }}, 3000);
+                        }};
+                    </script>
+                </head>
+                <body>
+                    {svg_content}
+                    <div class="no-print" style="text-align: center; margin: 20px;">
+                        <button onclick="window.print()">Печать</button>
+                        <button onclick="window.close()">Закрыть</button>
+                    </div>
+                </body>
+                </html>
+        """
+        #response = HttpResponse(svg_content, content_type='image/svg+xml')
+        #return response
+        return HttpResponse(html_content)
+    

@@ -7,7 +7,7 @@ from freppledb.qm.models import ProductPassport
 import os
 from freppledb.settings import MEDIA_ROOT, MEDIA_URL
 
-class ProductLabelPrintView(View):
+class ProductLabelPrintView(View): # Превью и печать этикетки паспорта
     """Предварительный просмотр шильдика"""
     def get(self, request):
         product_id = request.GET.get('id')

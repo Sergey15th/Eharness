@@ -7,7 +7,7 @@ from freppledb.menu import menu
 
 import freppledb.technology.views
 from freppledb.labels.models import (
-   LabelTemplate
+   LabelTemplate, CreatedLabel
 )
 from freppledb.labels.views.labeltemplatelist import LabelTemplateList
 from freppledb.labels.views.createdlabellist import CreatedLabelList
@@ -22,13 +22,12 @@ menu.addItem(
     index=11,
     model=LabelTemplate,
 )
-'''
+
 menu.addItem(
     "labels",
     "createdlabellist",
-    url="/data/labels/createdlabels/",
+    url="/data/labels/createdlabel/",
     report=CreatedLabelList,
     index=12,
-    model=LabelTemplateList,
+    model=CreatedLabel,
 )
-'''

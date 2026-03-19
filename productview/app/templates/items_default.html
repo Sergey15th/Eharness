@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Product {{ product.id }} - Default View{% endblock %}
+
+{% block content %}
+<div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <p><strong>Description:</strong> {{ product.description }}</p>
+    <p><strong>Category:</strong> {{ product.category }}</p>
+    <p><strong>Price:</strong> ${{ "%.2f"|format(product.price) }}</p>
+    <p><strong>Production Date:</strong> {{ product.production_date }}</p>
+    <p><strong>Batch Number:</strong> {{ product.batch_number }}</p>
+</div>
+{% endblock %}

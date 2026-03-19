@@ -71,25 +71,9 @@ class ProductPassportList(GridReport):
         GridFieldText("id", title=_("ID"), formatter="detail", model=ProductPassport, extra='"role":"qm/productpassport"',),
         GridFieldDateTime("date", title=_("Дата создания"), extra = ('"formatoptions":{"srcformat":"Y-m-d H:i:s","newformat":"%s H:i:s"}' % settings.DATE_FORMAT), editable=False),
         GridFieldInteger("serial_number", title=_("s/n"), editable=False),
-        GridFieldHierarchicalText(
-            "manufacturing_order",
-            title=_("Заказ"),
-            field_name="manufacturing_order",
-            key=False,
-            formatter="text",
-            #extra='"role":"input/manufacturingorder"',
-            model=ManufacturingOrder,
-            editable=False
-        ),
-        GridFieldText(
-            "item",
-            title=_("Продукт"),
-            field_name="manufacturing_order__operation__item",
-            key=False,
-            formatter="text",
-            editable=False
-        ),  
-        GridFieldText("labeltemplate", title=_("Шаблон этикетки"), field_name="label_path", key=False, formatter="showlink",
+        GridFieldHierarchicalText( "manufacturing_order", title=_("Заказ"), field_name="manufacturing_order", key=False, formatter="text", ),
+        GridFieldText( "item", title=_("Продукт"), field_name="manufacturing_order__operation__item", key=False, formatter="text", editable=False ),  
+        GridFieldText("label", title=_("этикетка"), field_name="label__file", key=False, formatter="showlink",
                       extra = ('"formatoptions": {"baseLinkUrl":"/data/qm/productpassportlabel/", "showaction ":"255", "target":"_blank"}'), #, "addParam": "?source=grid"
                       editable=False),
         GridFieldText("manufacturing_order__batch", title=_("Партия"), field_name="manufacturing_order__batch", editable=False),
@@ -108,3 +92,8 @@ class ProductPassportList(GridReport):
         GridFieldText("source", title=_("source"), initially_hidden=True, editable=False),
         GridFieldLastModified("lastmodified", editable=False),
 )
+'''
+        GridFieldText("labeltemplate", title=_("Шаблон этикетки"), field_name="label_path", key=False, formatter="showlink",
+                      extra = ('"formatoptions": {"baseLinkUrl":"/data/qm/productpassportlabel/", "showaction ":"255", "target":"_blank"}'), #, "addParam": "?source=grid"
+                      editable=False),
+'''

@@ -37,7 +37,6 @@
             "args": [
                 "runserver",
                 "8000",
-                "--noreload"
             ],
             "env": {
                 "DJANGO_SETTINGS_MODULE": "freppledb.settings",

@@ -53,7 +53,50 @@ class LabelTemplateListAPI(frePPleListCreateAPIView):
     serializer_class = LabelTemplateListSerializer
     filter_class = LabelTemplateListFilter
 
-class LabelTemplatedetailAPI(frePPleRetrieveUpdateDestroyAPIView):
+class LabelTemplateDetailAPI(frePPleRetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return models.LabelTemplate.objects.using(self.request.database).all()
     serializer_class = LabelTemplateListSerializer
+
+class CreatedLabelListFilter(FilterSet):
+    class Meta:
+        model = models.CreatedLabel
+        fields = dict(
+            {   "id": ["exact", "in"],
+                "name": ["exact", "in"],
+                "dir": ["exact", "in"],
+                "template": ["in"],
+                "lastmodified": ["exact", "in", "gt", "gte", "lt", "lte"],
+            },
+            **getAttributeAPIFilterDefinition(models.CreatedLabel),
+        )
+        filter_fields = fields.keys()
+
+class CreatedLabelListSerializer(BulkSerializerMixin, ModelSerializer):
+    class Meta:
+        model = models.CreatedLabel
+        fields = (
+            "id",
+            "name",
+            "dir",
+            "file",
+            "template",
+        ) + getAttributeAPIFields(models.CreatedLabel)
+        read_only_fields = (
+            "source",
+            "lastmodified",
+        ) + getAttributeAPIReadOnlyFields(models.CreatedLabel)
+        list_serializer_class = BulkListSerializer
+        update_lookup_field = "name"
+        partial = True
+
+class CreatedLabelListAPI(frePPleListCreateAPIView):
+    def get_queryset(self):
+        return models.CreatedLabel.objects.using(self.request.database).all()
+    serializer_class = CreatedLabelListSerializer
+    filter_class = CreatedLabelListFilter
+
+class CreatedLabelDetailAPI(frePPleRetrieveUpdateDestroyAPIView):
+    def get_queryset(self):
+        return models.CreatedLabel.objects.using(self.request.database).all()
+    serializer_class = CreatedLabelListSerializer

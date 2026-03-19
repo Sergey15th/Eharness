@@ -46,7 +46,10 @@ if mode == "WSGI":
 
         # ОТОБРАЖЕНИЕ списка мобильных вешал
         re_path(r"^data/technology/mobilehanger/$", views.MobileHangerList.as_view(), name="technology_mobilehanger_changelist", ),
-        
+    
+        # Готовые этикетки мобильного вешала
+        re_path(r"^data/technology/hangerlabel/$", MobileHangerLabelPreviewView.as_view(), name='preview_mobile_hangerlabel'),
+
         # ОТОБРАЖЕНИЕ мобильного вешала
         #re_path(r"^data/technology/mobilehanger/(?P<pk>(.+))/$", views.MobileHangerView.as_view(), name="technology_mobilehanger_view", ),
 

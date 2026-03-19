@@ -8,7 +8,7 @@
    version="1.1"
    id="svg348"
    inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
-   sodipodi:docname="Шаблон мобильное вешало_1.svg"
+   sodipodi:docname="Шаблон_мобильное_вешало.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +24,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="671.39787"
-     inkscape:cy="245.7196"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="1112.9861"
+     inkscape:cy="542.3509"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
@@ -70,13 +70,6 @@
        position="885,292"
        orientation="-1,0"
        id="guide14591"
-       inkscape:locked="false"
-       inkscape:label=""
-       inkscape:color="rgb(0,134,229)" />
-    <sodipodi:guide
-       position="885,292"
-       orientation="0,1"
-       id="guide14593"
        inkscape:locked="false"
        inkscape:label=""
        inkscape:color="rgb(0,134,229)" />
@@ -192,19 +185,6 @@
        y="5" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       x="178.9458"
-       y="61.915962"
-       id="text4345"
-       inkscape:transform-center-y="-2.5090886"><tspan
-         sodipodi:role="line"
-         id="tspan4343"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.2;stroke-dasharray:none;stroke-opacity:1"
-         x="178.9458"
-         y="61.915962"
-         template-id="MV_no_1">1</tspan></text>
-    <text
-       xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5778px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.2;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        x="78.604889"
        y="36.621773"
@@ -242,18 +222,6 @@
        y="81" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       x="178.9458"
-       y="137.91595"
-       id="text4345-5"><tspan
-         sodipodi:role="line"
-         id="tspan4343-0"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.2;stroke-dasharray:none;stroke-opacity:1"
-         x="178.9458"
-         y="137.91595"
-         template-id="MV_no_2">1</tspan></text>
-    <text
-       xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.5778px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.2;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        x="78.604889"
        y="112.62177"
@@ -268,14 +236,6 @@
          x="78.604889"
          y="140.84402"
          id="tspan4503-7">вешало</tspan></text>
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect5432"
-       width="66"
-       height="66"
-       x="5"
-       y="157"
-       template-id="QR_MV1" />
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
        id="rect5432-4"
@@ -372,46 +332,6 @@
        x="359.99994"
        y="139"
        template-id="QR_C2" />
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect5432-5"
-       width="66"
-       height="66"
-       x="71"
-       y="157"
-       template-id="QR_MV2" />
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect5432-5-5"
-       width="66"
-       height="66"
-       x="137"
-       y="157"
-       template-id="QR_MV3" />
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect5432-7"
-       width="66"
-       height="66"
-       x="5"
-       y="223"
-       template-id="QR_MV4" />
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect5432-5-7"
-       width="66"
-       height="66"
-       x="71"
-       y="223"
-       template-id="QR_MV5" />
-    <rect
-       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect5432-5-5-8"
-       width="66"
-       height="66"
-       x="137.00003"
-       y="223"
-       template-id="QR_MV6" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -444,11 +364,86 @@
            dy="0"
            style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
            id="tspan11673">№</tspan><tspan
-           dx="0.79138702"
-           dy="0"
            style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
            id="tspan11675"
-           template-id="MV_no_3">1</tspan></tspan></text>
+           template-id="MV_no_3" /></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       transform="rotate(90)"
+       x="166.3074"
+       y="-415.52863"
+       id="text11679-2"><tspan
+         sodipodi:role="line"
+         x="166.3074"
+         y="-415.52863"
+         id="tspan11677-4"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         template-id="number3">{number}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       transform="rotate(90)"
+       x="153.8143"
+       y="-633.68439"
+       id="text11679-7"><tspan
+         sodipodi:role="line"
+         x="153.8143"
+         y="-633.68439"
+         id="tspan11677-1"
+         style="stroke-width:0.264583"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
+           id="tspan11673-1">№</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
+           id="tspan11675-5"
+           template-id="MV_no_3" /></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       transform="rotate(90)"
+       x="166.3074"
+       y="-634.33923"
+       id="text11679-2-2"><tspan
+         sodipodi:role="line"
+         x="166.3074"
+         y="-634.33923"
+         id="tspan11677-4-7"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         template-id="number4">{number}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       transform="rotate(90)"
+       x="153.8143"
+       y="-854.87616"
+       id="text11679-7-2"><tspan
+         sodipodi:role="line"
+         x="153.8143"
+         y="-854.87616"
+         id="tspan11677-1-3"
+         style="stroke-width:0.264583"><tspan
+           dx="0"
+           dy="0"
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
+           id="tspan11673-1-2">№</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
+           id="tspan11675-5-2"
+           template-id="MV_no_3" /></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       transform="rotate(90)"
+       x="166.3074"
+       y="-855.53101"
+       id="text11679-2-2-1"><tspan
+         sodipodi:role="line"
+         x="166.3074"
+         y="-855.53101"
+         id="tspan11677-4-7-6"
+         style="text-align:start;text-anchor:start;stroke-width:0.264583"
+         template-id="number5">{number}</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
        id="rect5432-4-4"
@@ -897,27 +892,6 @@
            dy="0"
            style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
            id="tspan11667-0">Мобильное вешало</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       transform="rotate(90)"
-       x="153.8143"
-       y="-634.87372"
-       id="text11679-5"><tspan
-         sodipodi:role="line"
-         x="153.8143"
-         y="-634.87372"
-         id="tspan11677-5"
-         style="stroke-width:0.264583"><tspan
-           dx="0"
-           dy="0"
-           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
-           id="tspan11673-6">№</tspan><tspan
-           dx="0.79138702"
-           dy="0"
-           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
-           id="tspan11675-6"
-           template-id="MV_no_4">1</tspan></tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
        id="rect5432-4-4-8"
@@ -1334,27 +1308,6 @@
            dy="0"
            style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
            id="tspan11667-0-1">Мобильное вешало</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;line-height:125%;font-family:'TT Firs Neue DemiBold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       transform="rotate(90)"
-       x="153.81432"
-       y="-854.87372"
-       id="text11679-5-8"><tspan
-         sodipodi:role="line"
-         x="153.81432"
-         y="-854.87372"
-         id="tspan11677-5-1"
-         style="stroke-width:0.264583"><tspan
-           dx="0"
-           dy="0"
-           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
-           id="tspan11673-6-5">№</tspan><tspan
-           dx="0.79138702"
-           dy="0"
-           style="font-style:normal;font-variant:normal;font-weight:400;font-size:11.2613px;font-family:'TT Firs Neue DemiBold';fill:#000000;stroke-width:0.264583"
-           id="tspan11675-6-5"
-           template-id="MV_no_5">1</tspan></tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:1.6, 1.6;stroke-dashoffset:0;stroke-opacity:1"
        id="rect5432-4-4-8-3"
@@ -2295,5 +2248,125 @@
        d="m 1698.5867,207.06271 v 22.40007 h -44.2451"
        id="path17651-5-6-9-10"
        sodipodi:nodetypes="ccc" />
+    <text
+       class="SVGTextShape"
+       id="text45"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="133.19174"
+       y="-14.751442"><tspan
+         class="TextParagraph"
+         id="tspan45"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.00984932"><tspan
+           class="TextPosition"
+           x="178.41017"
+           y="61.915962"
+           id="tspan44"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl Bold';white-space:pre;fill:#ffffff;fill-opacity:1;stroke-width:0.00984932"
+           template-id="number1">{#}</tspan></tspan></text>
+    <text
+       class="SVGTextShape"
+       id="text45-9"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       x="133.19174"
+       y="61.348015"><tspan
+         class="TextParagraph"
+         id="tspan45-4"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.00984932"><tspan
+           class="TextPosition"
+           x="178.41017"
+           y="138.01543"
+           id="tspan44-8"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:54.0456px;font-family:'TT Firs Neue Trl';-inkscape-font-specification:'TT Firs Neue Trl Bold';white-space:pre;fill:#ffffff;fill-opacity:1;stroke-width:0.00984932"
+           template-id="number2">{#}</tspan></tspan></text>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#49ca00;stroke-width:0.25;stroke-opacity:1"
+       id="rect2"
+       width="66"
+       height="66"
+       x="5"
+       y="157"
+       template-id="qr.image1" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#49ca00;stroke-width:0.25;stroke-opacity:1"
+       id="rect2-9"
+       width="66"
+       height="66"
+       x="5"
+       y="223"
+       template-id="qr.image4" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#49ca00;stroke-width:0.25;stroke-opacity:1"
+       id="rect2-9-7"
+       width="66"
+       height="66"
+       x="71"
+       y="223"
+       template-id="qr.image5" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#49ca00;stroke-width:0.25;stroke-opacity:1"
+       id="rect2-9-7-5"
+       width="66"
+       height="66"
+       x="137"
+       y="223"
+       template-id="qr.image6" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#49ca00;stroke-width:0.25;stroke-opacity:1"
+       id="rect2-7"
+       width="66"
+       height="66"
+       x="71"
+       y="157"
+       template-id="qr.image2" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#49ca00;stroke-width:0.25;stroke-opacity:1"
+       id="rect2-7-1"
+       width="66"
+       height="66"
+       x="137"
+       y="157"
+       template-id="qr.image3" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2-3"
+       width="66"
+       height="66"
+       x="5"
+       y="157" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2-3-2"
+       width="66"
+       height="66"
+       x="71"
+       y="157.00002" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2-3-3"
+       width="66"
+       height="66"
+       x="137.25"
+       y="223" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2-3-1"
+       width="66"
+       height="66"
+       x="5"
+       y="223" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2-3-38"
+       width="66"
+       height="66"
+       x="71"
+       y="223" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.25;stroke-dasharray:2, 2;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2-3-4"
+       width="66"
+       height="66"
+       x="137.25"
+       y="157.00002" />
   </g>
 </svg>

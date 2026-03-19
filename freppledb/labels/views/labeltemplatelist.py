@@ -50,6 +50,9 @@ class LabelTemplateList(GridReport):
             title=_("name"),
         ),
         GridFieldText(
+            "dir",
+            title=_("dir"),
+        ),        GridFieldText(
             "template",
             title=_("IM"),
             formatter="imagenew2",

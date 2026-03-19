@@ -30,9 +30,9 @@
      inkscape:cx="197.99999"
      inkscape:cy="224.24999"
      inkscape:window-width="1920"
-     inkscape:window-height="1001"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1">
     <sodipodi:guide
@@ -56,13 +56,6 @@
        empspacing="5"
        enabled="true"
        visible="true" />
-    <sodipodi:guide
-       position="25.250001,201.75"
-       orientation="-1,0"
-       id="guide4"
-       inkscape:locked="false"
-       inkscape:label=""
-       inkscape:color="rgb(0,134,229)" />
   </sodipodi:namedview>
   <defs
      id="defs1">

@@ -3,9 +3,10 @@ import segno
 import barcode as barcode_lib
 from barcode.writer import ImageWriter
 from django.db import models
-from freppledb.common.models import User
+from freppledb.common.models import User, Parameter
 import os
 from pathlib import Path
+from django.db import DEFAULT_DB_ALIAS
 from freppledb.settings import MEDIA_ROOT, MEDIA_URL
 # Use the function "_" for all strings that need translation.
 from django.utils.translation import gettext_lazy as _
@@ -17,11 +18,12 @@ alphabet="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 class QR(AuditModel):
     def create_qr(self, qr):
+        pview_address = Parameter.getValue(key = 'pview_address', database=DEFAULT_DB_ALIAS, default='')
         self.qr = qr
         if len(self.qr)<6:
-            image = segno.make('5-J.SU/'+self.qr, micro=False, mode='alphanumeric', version=1, error='L')
+            image = segno.make(pview_address+self.qr, micro=False, version=2, error='L')
         else:
-            image = segno.make('5-J.SU/'+self.qr, micro=False, mode='alphanumeric', version=1, error='L')
+            image = segno.make(pview_address+self.qr, micro=False, version=2, error='L')
         # Заменяем строчные буквы на конструкцию '_*', т.е. перед строчной буквой ставим _
         qr_filename = self.qr
         for letter in 'abcdefghijklmnopqrstuvwxyz':
