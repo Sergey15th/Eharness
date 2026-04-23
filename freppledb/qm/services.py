@@ -18,9 +18,9 @@ import re
 
 import cairosvg
 import tempfile
-import win32print
+#import win32print
 import tempfile
-import win32api
+#import win32api
 
 ### Signals list ###
 print_passport_label_signal = Signal()
