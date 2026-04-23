@@ -10,7 +10,6 @@ from freppledb.celery import app
 from celery.utils.log import get_task_logger
 from celery.signals import worker_init, worker_shutdown
 from freppledb.mqtt.mqtt_client import MQTTPublisherSingleton
-import winsound
 
 logger = get_task_logger(__name__)
 celery_logger = logging.getLogger('celery')
@@ -32,7 +31,6 @@ def setup_mqtt(sender, **kwargs):
         print(f"MQTT Publisher инициализирован в процессе {os.getpid()}")
         frequency = 1000  # Частота в герцах  
         duration = 300  # Продолжительность в миллисекундах  
-        winsound.Beep(frequency, duration)
     except Exception as e:
         print(f"Ошибка инициализации MQTT в процессе {os.getpid()}: {e}")
         logger.error(f"Ошибка инициализации MQTT в процессе {os.getpid()}: {e}")
