@@ -11,8 +11,8 @@ import base64
 import tempfile
 import json
 
-import win32print
-import win32api
+#import win32print
+#import win32api
 
 import cairosvg
 import tempfile
