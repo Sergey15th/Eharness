@@ -1,3 +1,4 @@
+#HELLO
 portend == 2.5
 djangorestframework == 3.15.2
 djangorestframework-bulk == 0.2.1
@@ -40,4 +41,8 @@ svglue==0.3.0
 pyserial==3.5
 paho-mqtt==2.1.0
 aiohttp==3.13.2
+<<<<<<< HEAD
 pyserial-asyncio==0.6
+=======
+pyserial-asyncio==0.6
+>>>>>>> 69175e5ef8d386ac01bec659e82c88e19cd2b0fc
