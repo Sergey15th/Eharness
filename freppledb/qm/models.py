@@ -73,7 +73,7 @@ class ProductPassport(AuditModel):
   )
   label = models.ForeignKey( CreatedLabel, verbose_name=_("Этикетка"), on_delete=models.PROTECT, unique=False, db_index=False, null=True, related_name='label_passports', default=None)
   label_path = models.CharField(max_length=300, null=True, blank=True)
-  product_qrcode = models.OneToOneField( QR, verbose_name=_("QR код продукта"), on_delete=models.PROTECT, unique=True, db_index=False, related_name='product_passports', )
+  product_qrcode = models.OneToOneField(QR, verbose_name=_("QR код продукта"), on_delete=models.PROTECT, unique=True, db_index=False, related_name='product_passports', )
   status = models.CharField(max_length=50, null=True, blank=True, default='Создан')
   part_name = models.CharField(max_length=200, null=True, blank=True)
   firmware = models.CharField(max_length=200, null=True, blank=True)

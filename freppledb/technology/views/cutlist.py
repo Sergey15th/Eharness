@@ -331,7 +331,7 @@ class ItemTList(GridReport):
         End products, intermediate products and raw materials all need to be defined.<br>
         <br><br>
         <div role="group" class="btn-group.btn-group-justified">
-        <a href="{{request.prefix}}/data/input/itemt/add/" class="btn btn-primary">Create a single item<br>in a form</a>
+        <a href="{{request.prefix}}/data/technology/itemt/add/" class="btn btn-primary">Create a single item<br>in a form</a>
         <a href="{{request.prefix}}/wizard/load/production/?currentstep=1" class="btn btn-primary">Wizard to upload items<br>from a spreadsheet</a>
         </div>
         <br>
